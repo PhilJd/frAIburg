@@ -1,0 +1,36 @@
+item {
+  id: 1
+  name: "pedestrian_left"
+}
+item {
+  id: 2
+  name: "pedestrian_right"
+}
+item {
+  id: 3
+  name: "pedestrian_front"
+}
+item {
+  id: 4
+  name: "pedestrian_back"
+}
+item {
+  id: 5
+  name: "child"
+}
+item {
+  id: 6
+  name: "car_left"
+}
+item {
+  id: 7
+  name: "car_right"
+}
+item {
+  id: 8
+  name: "car_front"
+}
+item {
+  id: 9
+  name: "car_back"
+}

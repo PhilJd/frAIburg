@@ -1,0 +1,52 @@
+Missing:
+__________
+
+- LaneChangeToClear: How to know when obstacle is passed?
+  : Use US sensors or object ID
+#
+- Setup parcour + Cut out signs
+#
+- Figure out why parking failed in testevent
+  : Event priority in state machine?
+#
+- Crossing detection: CrossingByLane method - where to implement?
+  : Triggered by horiz. lane detection;
+#  
+- Making robust turns, using available lanes
+  : checkout map for detected lanes; add global orientation to lanes
+#
+- IPM of basler and rear cam
+#
+- IPM for basler in separate filter (used by zebra + lane filter)
+  : send scale values 
+#
+- getting markerDetector working with cropped Baslers
+  : use distorted image vs. (undistorted + identity transform + undoing alpha scale)
+#
+- Why does EM filter toggle enabled/disable with obstacle in front?
+  : 
+#
+- Jury comm., obstacle detected, missing signs, parking spots
+#
+- robust orientation est. of cars, persons
+#
+- Does state machine still speed up after stopping at Zebra?
+#
+- Remove park behaviour from state machine
+#
+- Pedestrians at crossing, zebra (orientation) in Statemachine
+- Slow down when child detected
+#
+
+Untested:
+_________
+
+- ManeuverPlanner, testing out all state transitions
+#
+- ManeuverGoal + continuous replanning, does it work at all?
+#
+- LaneChange behaviour
+#
+- Parking with rear cam
+  : does the camera always work? Conflicts between two lanedetection filters?
+#

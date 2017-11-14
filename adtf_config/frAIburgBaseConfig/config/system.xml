@@ -1,0 +1,1115 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<adtf:project xmlns:adtf="adtf">
+ <general_settings>
+  <property name="active_configuration" type="String" value="main" />
+  <property name="media_description_files" type="String" value="./../description/*.description;./../addons/*/description/*.description;./../src/examples/src/description/*.description;../../../../description/*.description/*.*;../../../description/aadc.description" />
+  <property name="media_description_enable_provide_signals" type="Bool" value="true" />
+  <property name="enable_messagebus" type="Bool" value="true" />
+ </general_settings>
+ <configurations>
+  <configuration description="" name="Live_Visualization">
+   <graph>
+    <filter alias="AADC_Watchdog_Trigger" idref="adtf.aadc.watchdogTrigger" priority="2">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Transmit rate in ms" type="Int" value="250" />
+     </settings>
+    </filter>
+    <filter alias="Signal_View" idref="adtf.ui.signal_view" priority="8">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <filter alias="AADC_Sensor_Visualization" idref="adtf.aadc.SensorVisualization" priority="5">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <filter alias="AADC_AHRS_Calculator" idref="adtf.aadc.AHRSCalculator" priority="4">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <subgraph alias="Base_Config" idref="Base_Config" priority="1" />
+    <connection connection_priority="50" dest="AADC_AHRS_Calculator.InerMeasUnit_Struct" interface="" source="Base_Config.InerMeasUnitStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Visualization.WheelLeftStruct" interface="" source="Base_Config.WheelLeftStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Visualization.WheelRightStruct" interface="" source="Base_Config.WheelRightStruct" />
+    <filter alias="AADC_Car_Controller" idref="adtf.aadc.CarController" priority="3">
+     <settings>
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Base_Config.SpeedController" interface="" source="AADC_Car_Controller.SpeedController" />
+    <connection connection_priority="50" dest="Base_Config.SteeringController" interface="" source="AADC_Car_Controller.SteeringController" />
+    <connection connection_priority="50" dest="Base_Config.headLightEnabled" interface="" source="AADC_Car_Controller.headLightEnabled" />
+    <connection connection_priority="50" dest="Base_Config.brakeLightEnabled" interface="" source="AADC_Car_Controller.brakeLightEnabled" />
+    <connection connection_priority="50" dest="Base_Config.reverseLightEnabled" interface="" source="AADC_Car_Controller.reverseLightEnabled" />
+    <connection connection_priority="50" dest="Base_Config.turnSignalLeftEnabled" interface="" source="AADC_Car_Controller.turnSignalLeftEnabled" />
+    <connection connection_priority="50" dest="Base_Config.turnSignalRightEnabled" interface="" source="AADC_Car_Controller.turnSignalRightEnabled" />
+    <connection connection_priority="50" dest="Base_Config.USSFrontEnabled" interface="" source="AADC_Car_Controller.USSFrontEnabled" />
+    <connection connection_priority="50" dest="Base_Config.USSRearEnabled" interface="" source="AADC_Car_Controller.USSRearEnabled" />
+    <connection connection_priority="50" dest="Base_Config.hazzardLightEnabled" interface="" source="AADC_Car_Controller.hazzardLightEnabled" />
+    <connection connection_priority="50" dest="AADC_Sensor_Visualization.UltrasonicStruct" interface="" source="Base_Config.UltrasonicStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Visualization.VoltageStruct" interface="" source="Base_Config.VoltageStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Visualization.InerMeasUnitStruct" interface="" source="AADC_AHRS_Calculator.InerMeasUnit_Struct_Updated" />
+    <filter alias="AADC_Sensor_Analyzer" idref="adtf.aadc.sensorAnalyzer" priority="6">
+     <settings>
+      <property name="Directory for Sensorpresets" type="String" value="..\..\..\configuration_files\Sensorpresets" />
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="AADC_Sensor_Analyzer.InerMeasUnitStruct" interface="" source="AADC_AHRS_Calculator.InerMeasUnit_Struct_Updated" />
+    <connection connection_priority="50" dest="AADC_Sensor_Analyzer.WheelRightStruct" interface="" source="Base_Config.WheelRightStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Analyzer.WheelLeftStruct" interface="" source="Base_Config.WheelLeftStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Analyzer.VoltageStruct" interface="" source="Base_Config.VoltageStruct" />
+    <connection connection_priority="50" dest="AADC_Sensor_Analyzer.UltrasonicStruct" interface="" source="Base_Config.UltrasonicStruct" />
+    <filter alias="AADC_Converter_Wheels" idref="adtf.aadc.converterWheels" priority="8">
+     <settings>
+      <property name="Filter constant first order" type="Float" value="0,3.0" />
+      <property name="Filtering enabled" type="Bool" value="false" />
+      <property name="Plausibilize with Direction Indicator" type="Bool" value="true" />
+      <property name="Use Speed Controller Input Direction" type="Bool" value="true" />
+      <property name="Use Speed Controller Input Direction - Deadband" type="Float" value="0,1000000015.0" />
+      <property name="Wheel circumference" type="Float" value="0,34.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="AADC_Converter_Wheels.WheelLeft_Struct" interface="" source="Base_Config.WheelLeftStruct" />
+    <connection connection_priority="50" dest="AADC_Converter_Wheels.WheelRight_Struct" interface="" source="Base_Config.WheelRightStruct" />
+   </graph>
+  </configuration>
+  <configuration description="" name="Camera_Visualization">
+   <graph>
+    <filter alias="AADC_Realsense_Camera" idref="adtf.aadc.aadc_realsense" priority="2">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="ColourStream::Colour Stream FPS" type="Int" value="30" />
+      <property name="ColourStream::Colour Stream Resolution" type="String" value="640x480" />
+      <property name="ColourStream::Enable Colour Stream" type="Bool" value="true" />
+      <property name="DepthStream::Depth Stream FPS" type="Int" value="30" />
+      <property name="DepthStream::Depth Stream Resolution" type="String" value="640x480" />
+      <property name="DepthStream::Enable Depth Stream" type="Bool" value="true" />
+      <property name="Enable Debug Logging" type="Bool" value="false" />
+      <property name="Enable Infrared 1 Stream" type="Bool" value="true" />
+      <property name="Enable Infrared 2 Stream" type="Bool" value="true" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MAX" type="Float" value="65535.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MIN" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTORL_TEXTURE_DIFFERENCE_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_DECREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_INCREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_LR_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_MEDIAN_THRESHOLD" type="Float" value="192.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_NEIGHBOR_THRESHOLD" type="Float" value="7.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MAXIMUM_THRESHOLD" type="Float" value="512.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MINIMUM_THRESHOLD" type="Float" value="1.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SECOND_PEAK_THRESHOLD" type="Float" value="27.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_TEXTURE_COUNT_THRESHOLD" type="Float" value="6.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_UNITS" type="Float" value="1000.0" />
+      <property name="R200::RS_OPTION_R200_EMITTER_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_AUTO_EYPOSURE_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_EXPOSURE" type="Float" value="164.0" />
+      <property name="R200::RS_OPTION_R200_LR_GAIN" type="Float" value="400.0" />
+      <property name="RS_OPTION_COLOR_BACKLIGHT_COMPENSATION" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_BRIGHTNESS" type="Float" value="56.0" />
+      <property name="RS_OPTION_COLOR_CONTRAST" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_WHITE_BALANCE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_GAIN" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_GAMMA" type="Float" value="220.0" />
+      <property name="RS_OPTION_COLOR_HUE" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_SATURATION" type="Float" value="128.0" />
+      <property name="RS_OPTION_COLOR_SHARPENSS" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_WHITE_BALANCE" type="Float" value="6500.0" />
+      <property name="RS_OPTION_FRAMES_QUEUE_SIZE" type="Float" value="20.0" />
+     </settings>
+    </filter>
+    <filter alias="RearCam" idref="adtf.io.linux_video_capture_device" priority="3">
+     <settings>
+      <property name="BitsPerPixel" type="Int" value="24" />
+      <property name="captureheight" type="Int" value="480" />
+      <property name="capturewidth" type="Int" value="640" />
+      <property name="devicename" type="String" value="/dev/video3" />
+      <property name="Height" type="Int" value="480" />
+      <property name="Width" type="Int" value="640" />
+      <property name="FlipVertical" type="Bool" value="true" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="2D_Display" idref="adtf.visual.2d_display" priority="5">
+     <settings>
+      <property name="Height" type="Int" value="500" />
+      <property name="scale_x" type="Float" value="0,5.0" />
+      <property name="scale_y" type="Float" value="0,5.0" />
+      <property name="Width" type="Int" value="640" />
+      <property name="Drawer::Video_Drawer" type="Int" value="4" />
+      <property name="Video_0::Active" type="Bool" value="true" />
+      <property name="Video_0::CS::Rotate" type="Float" value="0.0" />
+      <property name="Video_0::CS::ScaleX" type="Float" value="1.0" />
+      <property name="Video_0::CS::ScaleY" type="Float" value="1.0" />
+      <property name="Video_0::CS::TranslateX" type="Float" value="-320.0" />
+      <property name="Video_0::CS::TranslateY" type="Float" value="240.0" />
+      <property name="Video_0::Priority" type="Int" value="1" />
+      <property name="Video_0::Visible" type="Bool" value="true" />
+      <property name="Video_0::ZOrder" type="Int" value="1" />
+      <property name="Video_1::Active" type="Bool" value="true" />
+      <property name="Video_1::CS::Rotate" type="Float" value="0.0" />
+      <property name="Video_1::CS::ScaleX" type="Float" value="1.0" />
+      <property name="Video_1::CS::ScaleY" type="Float" value="1.0" />
+      <property name="Video_1::CS::TranslateX" type="Float" value="320.0" />
+      <property name="Video_1::CS::TranslateY" type="Float" value="240.0" />
+      <property name="Video_1::Priority" type="Int" value="1" />
+      <property name="Video_1::Visible" type="Bool" value="true" />
+      <property name="Video_1::ZOrder" type="Int" value="1" />
+      <property name="Video_2::Active" type="Bool" value="true" />
+      <property name="Video_2::CS::Rotate" type="Float" value="0.0" />
+      <property name="Video_2::CS::ScaleX" type="Float" value="1.0" />
+      <property name="Video_2::CS::ScaleY" type="Float" value="1.0" />
+      <property name="Video_2::CS::TranslateX" type="Float" value="-320.0" />
+      <property name="Video_2::CS::TranslateY" type="Float" value="-240.0" />
+      <property name="Video_2::Priority" type="Int" value="1" />
+      <property name="Video_2::Visible" type="Bool" value="true" />
+      <property name="Video_2::ZOrder" type="Int" value="1" />
+      <property name="Video_3::Active" type="Bool" value="true" />
+      <property name="Video_3::CS::Rotate" type="Float" value="0.0" />
+      <property name="Video_3::CS::ScaleX" type="Float" value="1.0" />
+      <property name="Video_3::CS::ScaleY" type="Float" value="1.0" />
+      <property name="Video_3::CS::TranslateX" type="Float" value="320.0" />
+      <property name="Video_3::CS::TranslateY" type="Float" value="-240.0" />
+      <property name="Video_3::Priority" type="Int" value="1" />
+      <property name="Video_3::Visible" type="Bool" value="true" />
+      <property name="Video_3::ZOrder" type="Int" value="1" />
+      <property name="Title" type="String" value="RealSense_View" />
+      <property name="active" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="2D_Display.VideoIn_0" interface="" source="AADC_Realsense_Camera.outputRGB" />
+    <connection connection_priority="50" dest="2D_Display.VideoIn_1" interface="" source="AADC_Realsense_Camera.outputDepthVisualization" />
+    <connection connection_priority="50" dest="2D_Display.VideoIn_2" interface="" source="AADC_Realsense_Camera.outputInfraRed1" />
+    <connection connection_priority="50" dest="2D_Display.VideoIn_3" interface="" source="AADC_Realsense_Camera.outputInfraRed2" />
+    <connection connection_priority="50" dest="2D_Display.Trigger" interface="" source="AADC_Realsense_Camera.outputRGB" />
+    <filter alias="RearCam_View" idref="adtf.visual.video_display" priority="4">
+     <settings>
+      <property name="Height" type="Int" value="500" />
+      <property name="PosX" type="Int" value="640" />
+      <property name="Width" type="Int" value="640" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="RearCam_View" interface="" source="RearCam" />
+    <filter alias="FrontView" idref="adtf.visual.video_display" priority="6">
+     <settings>
+      <property name="Height" type="Int" value="500" />
+      <property name="PosX" type="Int" value="640" />
+      <property name="Width" type="Int" value="640" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="FrontView.input" interface="" source="AADC_Basler_Camera.outputRGB" />
+    <filter alias="AADC_Basler_Camera" idref="adtf.aadc.baslercamera" priority="1">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Brightness" type="Float" value="0,3.0" />
+      <property name="ROI::Height" type="Int" value="300" />
+      <property name="ROI::Show ROI" type="Bool" value="false" />
+      <property name="ROI::Width" type="Int" value="400" />
+      <property name="ROI::XOffset" type="Int" value="440" />
+      <property name="ROI::YOffset" type="Int" value="330" />
+      <property name="Stream Height" type="Int" value="960" />
+      <property name="Stream Width" type="Int" value="1280" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="FrontView.gcl_input" interface="" source="AADC_Basler_Camera.ROI_GCL" />
+    <filter alias="Camera_Snapshot_Filter" idref="adtf.frAIburg_camera_snapshot" priority="7">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter.Video_Input" interface="" source="FrontView.video_output" />
+   </graph>
+  </configuration>
+  <configuration description="" name="frAIburg_Map_Visualization">
+   <graph>
+    <subgraph alias="Base_Config" idref="Base_Config" priority="1" />
+    <filter alias="frAIburg_Singleton_Map_Visualization" idref="adtf.example.map_visualization_filter" priority="1">
+     <settings>
+      <property name="UI update intervall in [s]" type="Float" value="1.0" />
+      <property name="active" type="Bool" value="true" />
+      <property name="Enable load frAIburg test map" type="Bool" value="true" />
+      <property name="Desktop" type="Int" value="0" />
+      <property name="Show text at start" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Keyboard_remote_Filter" idref="adtf.example.keyboard_remote_filter" priority="1">
+     <settings>
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Base_Config.SteeringController" interface="" source="frAIburg_Keyboard_remote_Filter.SteeringController" />
+    <connection connection_priority="50" dest="Base_Config.SpeedController" interface="" source="frAIburg_Keyboard_remote_Filter.SpeedController" />
+    <filter alias="frAIburg_Singleton_Map" idref="adtf.example.map_filter" priority="1">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Car postion unknown timeout [s]" type="Float" value="60.0" />
+      <property name="Car postion update intervall in [s]" type="Float" value="0,05.0" />
+      <property name="Car remove elements under protected distance to car [m]" type="Float" value="-2.0" />
+      <property name="Car reposition jump distance between pin postion update[m]" type="Float" value="0,1.0" />
+      <property name="Car reposition past elements to update [s]" type="Float" value="30.0" />
+     </settings>
+    </filter>
+    <subgraph alias="Base_Camera" idref="Base_Camera" priority="2" />
+    <subgraph alias="Base_Postioning" idref="Base_Postioning" priority="3" />
+    <connection connection_priority="50" dest="Base_Postioning.BaslerCamer_Undistorted" interface="" source="Base_Camera.BaslerCamerUndistorted" />
+    <connection connection_priority="50" dest="frAIburg_Singleton_Map.car_Postion" interface="" source="Base_Postioning.Position" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelLeft_Struct" interface="" source="Base_Config.WheelLeftStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelRight_Struct" interface="" source="Base_Config.WheelRightStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.InerMeasUnit_Struct" interface="" source="Base_Config.InerMeasUnitStruct" />
+    <connection connection_priority="50" dest="frAIburg_Road_Sign_Map_Filter.RoadSignExt" interface="" source="Base_Postioning.RoadSign_ext" />
+    <filter alias="frAIburg_Road_Sign_Map_Filter" idref="adtf.example.roadsign_filter" priority="4">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Enable debug mode" type="Bool" value="true" />
+      <property name="Min update time between sign map [s]" type="Float" value="0,05.0" />
+      <property name="xml file with parking space dimension" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dimensions.xml" />
+      <property name="In range threadhold to inform the jruy [m]" type="Float" value="0,5.0" />
+      <property name="frAIburg xml configuration camera sensor target" type="String" value="camera basler" />
+      <property name="Sign fuse distance [m]" type="Float" value="1,5.0" />
+      <property name="check time intervall to check signs to inform the jury second [s]" type="Float" value="0,1.0" />
+      <property name="Enable load known signs" type="Bool" value="true" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="In range distance to scan for corresponding signs [m]" type="Float" value="0,5.0" />
+      <property name="Projected distance of a sign to inform the jury[m]" type="Float" value="0,5.0" />
+      <property name="Sign fuse area [m2]" type="Float" value="-1.0" />
+      <property name="xml file known sigins" type="String" value="/home/aadc/ADTF/src/configuration/roadSigns.xml" />
+      <property name="xml file with sign dimension" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dimensions.xml" />
+     </settings>
+    </filter>
+   </graph>
+  </configuration>
+  <configuration description="" name="frAiburg_dataset_recording">
+   <graph>
+    <filter alias="AADC_Basler_Camera" idref="adtf.aadc.baslercamera" priority="1">
+     <settings>
+      <property name="Brightness" type="Float" value="0,3.0" />
+      <property name="ROI::Height" type="Int" value="300" />
+      <property name="ROI::Show ROI" type="Bool" value="false" />
+      <property name="ROI::Width" type="Int" value="400" />
+      <property name="ROI::XOffset" type="Int" value="440" />
+      <property name="ROI::YOffset" type="Int" value="330" />
+      <property name="Stream Height" type="Int" value="960" />
+      <property name="Stream Width" type="Int" value="1280" />
+     </settings>
+    </filter>
+    <filter alias="Camera_Snapshot_Filter" idref="adtf.frAIburg_camera_snapshot" priority="2">
+     <settings>
+      <property name="storage_path" type="String" value="/home/aadc/doll_dataset/rgb" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="Camera_Snapshot_Filter2" idref="adtf.frAIburg_camera_snapshot" priority="2">
+     <settings>
+      <property name="storage_path" type="String" value="/home/aadc/doll_dataset/depth" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="Camera_Snapshot_Filter3" idref="adtf.frAIburg_camera_snapshot" priority="2">
+     <settings>
+      <property name="storage_path" type="String" value="/home/aadc/doll_dataset/rgb_basler/" />
+      <property name="convert_bgr_to_rgb" type="Bool" value="true" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="AADC_Realsense_Camera" idref="adtf.aadc.aadc_realsense" priority="2">
+     <settings>
+      <property name="ColourStream::Colour Stream Resolution" type="String" value="1920x1080" />
+      <property name="ColourStream::Colour Stream FPS" type="Int" value="30" />
+      <property name="ColourStream::Enable Colour Stream" type="Bool" value="true" />
+      <property name="DepthStream::Depth Stream FPS" type="Int" value="30" />
+      <property name="DepthStream::Depth Stream Resolution" type="String" value="640x480" />
+      <property name="DepthStream::Enable Depth Stream" type="Bool" value="true" />
+      <property name="Enable Debug Logging" type="Bool" value="false" />
+      <property name="Enable Infrared 1 Stream" type="Bool" value="true" />
+      <property name="Enable Infrared 2 Stream" type="Bool" value="true" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MAX" type="Float" value="65535.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MIN" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTORL_TEXTURE_DIFFERENCE_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_DECREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_INCREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_LR_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_MEDIAN_THRESHOLD" type="Float" value="192.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_NEIGHBOR_THRESHOLD" type="Float" value="7.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MAXIMUM_THRESHOLD" type="Float" value="512.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MINIMUM_THRESHOLD" type="Float" value="1.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SECOND_PEAK_THRESHOLD" type="Float" value="27.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_TEXTURE_COUNT_THRESHOLD" type="Float" value="6.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_UNITS" type="Float" value="1000.0" />
+      <property name="R200::RS_OPTION_R200_EMITTER_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_AUTO_EYPOSURE_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_EXPOSURE" type="Float" value="164.0" />
+      <property name="R200::RS_OPTION_R200_LR_GAIN" type="Float" value="400.0" />
+      <property name="RS_OPTION_COLOR_BACKLIGHT_COMPENSATION" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_BRIGHTNESS" type="Float" value="56.0" />
+      <property name="RS_OPTION_COLOR_CONTRAST" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_WHITE_BALANCE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_GAIN" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_GAMMA" type="Float" value="220.0" />
+      <property name="RS_OPTION_COLOR_HUE" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_SATURATION" type="Float" value="128.0" />
+      <property name="RS_OPTION_COLOR_SHARPENSS" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_WHITE_BALANCE" type="Float" value="6500.0" />
+      <property name="RS_OPTION_FRAMES_QUEUE_SIZE" type="Float" value="20.0" />
+     </settings>
+    </filter>
+    <subgraph alias="Jury_Config" idref="Jury_Config" priority="2" url="tcp://localhost:5000" />
+    <inport alias="Driver_Struct" />
+    <outport alias="Jury_ManeuverList" />
+    <outport alias="Jury_Struct" />
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter.Video_Input" interface="" source="AADC_Realsense_Camera.outputRGB" />
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter3.Video_Input" interface="" source="AADC_Basler_Camera.outputRGB" />
+    <connection connection_priority="50" dest="Jury_Config.Jury_Struct_Loopback_raw" interface="" source="Jury_Config.Jury_Struct_raw" />
+    <connection connection_priority="50" dest="Jury_Config.Jury_ManeuverList_Loopback_raw" interface="" source="Jury_Config.Jury_ManeuverList_raw" />
+    <connection connection_priority="50" dest="Jury_Struct" interface="" source="Jury_Config.Jury_Struct_raw" />
+    <connection connection_priority="50" dest="Jury_Config.Driver_Struct_raw" interface="" source="Driver_Struct" />
+    <connection connection_priority="50" dest="Jury_ManeuverList" interface="" source="Jury_Config.Jury_ManeuverList_raw" />
+    <connection connection_priority="50" dest="Jury_Config.Emergency_Stop_Loopback_raw" interface="" source="Jury_Config.Emergency_Stop_raw" />
+    <filter alias="AADC_Bool_Value_Generator" idref="adtf.aadc.boolValueGenerator" priority="3">
+     <settings>
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter2.trigger" interface="" source="AADC_Bool_Value_Generator.BoolValue" />
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter.trigger" interface="" source="AADC_Bool_Value_Generator.BoolValue" />
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter3.trigger" interface="" source="AADC_Bool_Value_Generator.BoolValue" />
+    <connection active="false" connection_priority="50" dest="Camera_Snapshot_Filter2.Video_Input" interface="" source="AADC_Realsense_Camera.outputDepthVisualization" />
+   </graph>
+  </configuration>
+  <configuration description="" name="Base_Camera">
+   <graph>
+    <filter alias="AADC_Fisheye_Undistortion_" idref="adtf.aadc.fisheyeUndistort" priority="1">
+     <settings>
+      <property name="Calibration File" type="String" value="..\..\..\configuration_files\basler_fisheye_intrinsic_calib.yml" />
+      <property name="active" type="Bool" value="false" />
+      <property name="GPU Processing" type="Bool" value="false" />
+      <property name="GPU Scaling" type="Float" value="1.0" />
+     </settings>
+    </filter>
+    <outport alias="BaslerCamerUndistorted" />
+    <outport alias="RealsenseDepth" />
+    <filter alias="frAIburg_Realsense_Camera" idref="adtf.aadc.frAIburg_realsense" priority="1">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MAX" type="Float" value="1200.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MIN" type="Float" value="100.0" />
+      <property name="R200::RS_OPTION_R200_EMITTER_ENABLED" type="Float" value="1.0" />
+      <property name="R200::RS_OPTION_R200_LR_AUTO_EYPOSURE_ENABLED" type="Float" value="1.0" />
+      <property name="ColorStream::Color Stream FPS" type="Int" value="30" />
+      <property name="ColorStream::Color Stream Resolution" type="String" value="640x480" />
+      <property name="ColorStream::Enable Color Stream" type="Bool" value="true" />
+      <property name="DepthStream::Depth Stream FPS" type="Int" value="30" />
+      <property name="DepthStream::Enable Depth Stream" type="Bool" value="true" />
+      <property name="Enable Debug Logging" type="Bool" value="false" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTORL_TEXTURE_DIFFERENCE_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_DECREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_INCREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_LR_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_MEDIAN_THRESHOLD" type="Float" value="192.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_NEIGHBOR_THRESHOLD" type="Float" value="7.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MAXIMUM_THRESHOLD" type="Float" value="512.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MINIMUM_THRESHOLD" type="Float" value="1.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SECOND_PEAK_THRESHOLD" type="Float" value="27.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_TEXTURE_COUNT_THRESHOLD" type="Float" value="6.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_UNITS" type="Float" value="1000.0" />
+      <property name="R200::RS_OPTION_R200_LR_EXPOSURE" type="Float" value="164.0" />
+      <property name="R200::RS_OPTION_R200_LR_GAIN" type="Float" value="400.0" />
+      <property name="RS_OPTION_COLOR_BACKLIGHT_COMPENSATION" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_BRIGHTNESS" type="Float" value="56.0" />
+      <property name="RS_OPTION_COLOR_CONTRAST" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_WHITE_BALANCE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_GAIN" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_GAMMA" type="Float" value="220.0" />
+      <property name="RS_OPTION_COLOR_HUE" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_SATURATION" type="Float" value="128.0" />
+      <property name="RS_OPTION_COLOR_SHARPENSS" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_WHITE_BALANCE" type="Float" value="6500.0" />
+      <property name="RS_OPTION_FRAMES_QUEUE_SIZE" type="Float" value="20.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="RealsenseDepth" interface="" source="frAIburg_Realsense_Camera.outputDepthRaw" />
+    <filter alias="Rear_Cam" idref="adtf.io.linux_video_capture_device" priority="3">
+     <settings>
+      <property name="FlipHorizontal" type="Bool" value="true" />
+      <property name="FlipVertical" type="Bool" value="true" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <outport alias="RearCamera" />
+    <connection active="false" connection_priority="50" dest="RearCamera" interface="" source="Rear_Cam.output" />
+    <filter alias="AADC_Basler_Camera" idref="adtf.aadc.baslercamera" priority="4">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+      <property name="Brightness" type="Float" value="0,3.0" />
+      <property name="ROI::Height" type="Int" value="300" />
+      <property name="ROI::Show ROI" type="Bool" value="false" />
+      <property name="ROI::Width" type="Int" value="400" />
+      <property name="ROI::XOffset" type="Int" value="440" />
+      <property name="ROI::YOffset" type="Int" value="330" />
+      <property name="Stream Height" type="Int" value="960" />
+      <property name="Stream Width" type="Int" value="1280" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="AADC_Fisheye_Undistortion_.Video_Input" interface="" source="AADC_Basler_Camera.outputRGB" />
+    <outport alias="BaslerCamerIPM" />
+    <filter alias="frAIburg_Basler_Camera" idref="adtf.frAIburg.baslercamera" priority="5">
+     <settings>
+      <property name="Calibration File" type="String" value="/home/aadc/ADTF/src/configuration/kalibr_basler_cropped_1280x400.yml" />
+      <property name="active" type="Bool" value="true" />
+      <property name="FPS max" type="Float" value="40.0" />
+      <property name="Brightness" type="Float" value="0,5.0" />
+      <property name="Enable_GPU_undistort" type="Bool" value="false" />
+      <property name="Exposure time" type="Float" value="0,005.0" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="ROIBrightness::Height" type="Int" value="300" />
+      <property name="ROIBrightness::Show ROI" type="Bool" value="false" />
+      <property name="ROIBrightness::Width" type="Int" value="1280" />
+      <property name="ROIBrightness::XOffset" type="Int" value="0" />
+      <property name="ROIBrightness::YOffset" type="Int" value="100" />
+      <property name="Stream column offset" type="Int" value="0" />
+      <property name="Stream Height" type="Int" value="400" />
+      <property name="Stream row offset" type="Int" value="380" />
+      <property name="Stream Width" type="Int" value="1280" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="BaslerCamerUndistorted" interface="" source="frAIburg_Basler_Camera.outputBGR" />
+    <connection connection_priority="50" dest="BaslerCamerIPM" interface="" source="frAIburg_Basler_Camera.outputIPM" />
+    <connection active="false" connection_priority="50" dest="BaslerCamerUndistorted" interface="" source="AADC_Fisheye_Undistortion_.Video_Output" />
+   </graph>
+  </configuration>
+  <configuration description="" name="Base_Postioning">
+   <graph>
+    <filter alias="AADC_Converter_Wheels" idref="adtf.aadc.converterWheels" priority="1">
+     <settings>
+      <property name="Filtering enabled" type="Bool" value="true" />
+      <property name="Use Speed Controller Input Direction - Deadband" type="Float" value="0,1.0" />
+      <property name="Filter constant first order" type="Float" value="0,3.0" />
+      <property name="Plausibilize with Direction Indicator" type="Bool" value="true" />
+      <property name="Use Speed Controller Input Direction" type="Bool" value="true" />
+      <property name="Wheel circumference" type="Float" value="0,34.0" />
+     </settings>
+    </filter>
+    <inport alias="InerMeasUnit_Struct" />
+    <inport alias="WheelLeft_Struct" />
+    <inport alias="WheelRight_Struct" />
+    <inport alias="BaslerCamer_Undistorted" />
+    <connection connection_priority="50" dest="AADC_Converter_Wheels.WheelLeft_Struct" interface="" source="WheelLeft_Struct" />
+    <connection connection_priority="50" dest="AADC_Converter_Wheels.WheelRight_Struct" interface="" source="WheelRight_Struct" />
+    <outport alias="Position" />
+    <outport alias="RoadSign_ext" />
+    <inport alias="SpeedController_Struct" />
+    <connection connection_priority="50" dest="AADC_Converter_Wheels.SpeedController_Struct" interface="" source="SpeedController_Struct" />
+    <outport alias="speed" />
+    <outport alias="delta_s" />
+    <connection connection_priority="50" dest="delta_s" interface="" source="AADC_Converter_Wheels.distance_lastSample" />
+    <connection connection_priority="50" dest="speed" interface="" source="AADC_Converter_Wheels.car_speed" />
+    <filter alias="frAIburg_Marker_Detector" idref="adtf.FraiburgMarkerDetector" priority="1">
+     <settings>
+      <property name="Calibration File for used Camera" type="String" value="../../../src/configuration/basler_cropped_undistorted_for_markerpositioning.yml" />
+      <property name="Detector Paramater File" type="String" value="..\..\..\configuration_files\detector_params.yml" />
+      <property name="Size of Markers" type="Float" value="0,11.0" />
+      <property name="active" type="Bool" value="true" />
+      <property name="FPS max" type="Float" value="30.0" />
+      <property name="Debug Output to Console" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Marker_Detector.Video_RGB_input" interface="" source="BaslerCamer_Undistorted" />
+    <filter alias="Video_Display" idref="adtf.visual.video_display" priority="2">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+      <property name="ScaleGCL" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="Video_Display.input" interface="" source="frAIburg_Marker_Detector.Video_RGB_output" />
+    <connection active="false" connection_priority="50" dest="Video_Display.gcl_input" interface="" source="frAIburg_Marker_Detector.GCL_Markers" />
+    <connection connection_priority="50" dest="RoadSign_ext" interface="" source="frAIburg_Marker_Detector.RoadSign_ext" />
+    <filter alias="frAIburg_Marker_Positioning" idref="adtf.frAIburg.MarkerPos" priority="3">
+     <settings>
+      <property name="Configuration" type="String" value="../../../src/configuration/RoadSign_LiorTesting.xml" />
+      <property name="Camera Offset::Lateral" type="Float" value="0.0" />
+      <property name="Camera Offset::Longitudinal" type="Float" value="0,26.0" />
+      <property name="Debug Output to Console" type="Bool" value="false" />
+      <property name="Speed Scale" type="Float" value="1.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Marker_Positioning.Speed" interface="" source="AADC_Converter_Wheels.car_speed" />
+    <connection connection_priority="50" dest="frAIburg_Marker_Positioning" interface="" source="frAIburg_Marker_Detector.RoadSign_ext" />
+    <connection connection_priority="50" dest="frAIburg_Marker_Positioning.InerMeasUnit_Struct" interface="" source="InerMeasUnit_Struct" />
+    <connection connection_priority="50" dest="Position" interface="" source="frAIburg_Marker_Positioning.Position" />
+   </graph>
+   <settings>
+    <property name="idref" type="String" value="adtf.fraiburg.markerDetector" />
+    <property name="priority" type="Int" value="4" />
+    <property name="Size of Markers" type="Float" value="0,11.0" />
+   </settings>
+  </configuration>
+  <configuration description="" name="main">
+   <graph>
+    <subgraph alias="Base_Config" idref="Base_Config" priority="1" />
+    <subgraph alias="Base_Basler" idref="Base_Camera" priority="2" />
+    <subgraph alias="Base_Postioning" idref="Base_Postioning" priority="3" />
+    <connection connection_priority="50" dest="Base_Postioning.BaslerCamer_Undistorted" interface="" source="Base_Basler.BaslerCamerUndistorted" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelRight_Struct" interface="" source="Base_Config.WheelRightStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelLeft_Struct" interface="" source="Base_Config.WheelLeftStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.InerMeasUnit_Struct" interface="" source="Base_Config.InerMeasUnitStruct" />
+    <filter alias="frAIburg_Light_Controller" idref="adtf.example.light_controller" priority="4" />
+    <connection connection_priority="50" dest="Base_Config.turnSignalRightEnabled" interface="" source="frAIburg_Light_Controller.turn_right" />
+    <connection connection_priority="50" dest="Base_Config.turnSignalLeftEnabled" interface="" source="frAIburg_Light_Controller.turn_left" />
+    <connection connection_priority="50" dest="Base_Config.reverseLightEnabled" interface="" source="frAIburg_Light_Controller.reverse_lights" />
+    <connection connection_priority="50" dest="Base_Config.headLightEnabled" interface="" source="frAIburg_Light_Controller.head_lights" />
+    <filter alias="frAIburg_Keyboard_remote_Filter" idref="adtf.example.keyboard_remote_filter" priority="1">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+      <property name="Desktop" type="Int" value="0" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="frAIburg_Light_Controller" interface="" source="frAIburg_Keyboard_remote_Filter.light_command" />
+    <connection active="false" connection_priority="50" dest="Base_Config.SteeringController" interface="" source="frAIburg_Keyboard_remote_Filter.SteeringController" />
+    <connection active="false" connection_priority="50" dest="Base_Config.SpeedController" interface="" source="frAIburg_Keyboard_remote_Filter.SpeedController" />
+    <filter alias="frAIburg_Singleton_Map" idref="adtf.example.map_filter" priority="5">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Car postion unknown timeout [s]" type="Float" value="60.0" />
+      <property name="Car postion update intervall in [s]" type="Float" value="0,05.0" />
+      <property name="Car remove elements under protected distance to car [m]" type="Float" value="-2.0" />
+      <property name="Car reposition jump distance between pin postion update[m]" type="Float" value="0,1.0" />
+      <property name="Car reposition past elements to update [s]" type="Float" value="30.0" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Planner" idref="adtf.frAIburg_planner" priority="6">
+     <settings>
+      <property name="Path related: debug mode" type="Bool" value="false" />
+      <property name="Speed related: debug mode" type="Bool" value="false" />
+      <property name="active" type="Bool" value="true" />
+      <property name="Filter communication: debug mode" type="Bool" value="true" />
+      <property name="Goal point generation: debug mode" type="Bool" value="false" />
+      <property name="Path planner: debug mode" type="Bool" value="false" />
+      <property name="Speed planner: debug mode" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Lane_Detection" idref="adtf.user.aadc_frAIburg_LaneDetection" priority="8">
+     <settings>
+      <property name="Transform::scale" type="Int" value="200" />
+      <property name="active" type="Bool" value="true" />
+      <property name="Algorithm::Image Binarization Threshold" type="Int" value="180" />
+      <property name="Algorithm::Step Width" type="Float" value="0,01.0" />
+      <property name="Transform::Image Height" type="Float" value="1.0" />
+      <property name="Transform::Image Width" type="Float" value="1,8.0" />
+      <property name="Transform::debug_pnt_x" type="Float" value="1,1.0" />
+      <property name="Transform::debug_pnt_y" type="Float" value="0,58.0" />
+      <property name="Debug_Mode" type="Bool" value="true" />
+      <property name="Algorithm::Detection Distance" type="Float" value="0,04.0" />
+      <property name="Algorithm::Maximum Line Width" type="Float" value="0,06.0" />
+      <property name="Algorithm::Minimum Line Contrast" type="Int" value="50" />
+      <property name="Algorithm::Minimum Line Width" type="Float" value="0,02.0" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="frAIburg xml configuration camera sensor target" type="String" value="camera basler cropped" />
+      <property name="ROI::Height" type="Float" value="1,1.0" />
+      <property name="ROI::Width" type="Float" value="1,7.0" />
+      <property name="ROI::XOffset" type="Float" value="0,2.0" />
+      <property name="ROI::YOffset" type="Float" value="0,1.0" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Singleton_Map_Visualization" idref="adtf.example.map_visualization_filter" priority="7">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Desktop" type="Int" value="0" />
+      <property name="Enable load frAIburg test map" type="Bool" value="false" />
+      <property name="Show text at start" type="Bool" value="true" />
+      <property name="UI update intervall in [s]" type="Float" value="0,05.0" />
+     </settings>
+    </filter>
+    <subgraph alias="frAIburg_Controller" idref="frAIburg_Controller" priority="7" />
+    <connection connection_priority="50" dest="frAIburg_Controller.v_current" interface="" source="Base_Postioning.speed" />
+    <connection connection_priority="50" dest="frAIburg_Controller.v_set" interface="" source="frAIburg_Planner.v_set" />
+    <connection connection_priority="50" dest="frAIburg_Controller.goal_point" interface="" source="frAIburg_Planner.goal_point" />
+    <connection connection_priority="50" dest="frAIburg_Planner.delta_s" interface="" source="Base_Postioning.delta_s" />
+    <connection connection_priority="50" dest="frAIburg_Planner.Position" interface="" source="Base_Postioning.Position" />
+    <connection connection_priority="50" dest="frAIburg_Singleton_Map.car_Postion" interface="" source="Base_Postioning.Position" />
+    <connection connection_priority="50" dest="Base_Config.SpeedController" interface="" source="frAIburg_Controller.u_speed_arduino" />
+    <connection connection_priority="50" dest="Base_Config.SteeringController" interface="" source="frAIburg_Controller.u_steering_arduino" />
+    <connection connection_priority="50" dest="frAIburg_Planner.VerticalLane" interface="" source="frAIburg_Lane_Detection.Lane" />
+    <filter alias="frAIburg_Dynamic_Emergency_Filter" idref="adtf.frAIburg_dynamic_emergency_filter" priority="10">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Enagle Map collision check" type="Bool" value="true" />
+      <property name="Ultrasonic max limit add to ring buffer in [m]" type="Float" value="0,3.0" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="frAIburg emergency filter xml configuration" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dynamic_emergency_filter.xml" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="set ring buffer size, if full emergency is check with mean" type="Int" value="2" />
+      <property name="Time interval to check map collition in [s]" type="Float" value="0,05.0" />
+      <property name="Use planner path for collision check" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Base_Config.brakeLightEnabled" interface="" source="frAIburg_Light_Controller.brake_lights" />
+    <filter alias="Video_Display" idref="adtf.visual.video_display" priority="10">
+     <settings>
+      <property name="ScaleGCL" type="Bool" value="true" />
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <connection active="false" connection_priority="50" dest="Video_Display.gcl_input" interface="" source="frAIburg_Lane_Detection.GCL" />
+    <connection active="false" connection_priority="50" dest="Video_Display.input" interface="" source="frAIburg_Lane_Detection.Video_Output_Debug" />
+    <connection connection_priority="50" dest="Base_Config.hazzardLightEnabled" interface="" source="frAIburg_Light_Controller.hazzard_lights" />
+    <filter alias="frAIburg_Ultrasonic_To_MapFilter_Emergency" idref="adtf.frAIburg_us_to_map_filter" priority="10">
+     <settings>
+      <property name="Max limit add data to the ring buffer in [m]" type="Float" value="0,4.0" />
+      <property name="Map time of life, -1 to disable [s]" type="Float" value="1.0" />
+      <property name="active" type="Bool" value="true" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="Map fuse max area difference, -1 to disable [m2]" type="Float" value="-1.0" />
+      <property name="Map fuse max distance, -1 to disable [m]" type="Float" value="0,05.0" />
+      <property name="set ring buffer size, if full map element is added" type="Int" value="2" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter_Emergency.UltrasonicFrontCenter" interface="" source="Base_Config.UltrasonicFrontCenter" />
+    <filter alias="Obstacle__Detection_Filter" idref="adtf.frAIburg_ObstacleDetection" priority="10">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="distance_threshold" type="Float" value="1,7.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Obstacle__Detection_Filter.raw_depth_input" interface="" source="Base_Basler.RealsenseDepth" />
+    <connection connection_priority="50" dest="frAIburg_Planner.behaviour" interface="" source="frAIburg_Dynamic_Emergency_Filter.PlannerBehaviour" />
+    <connection connection_priority="50" dest="frAIburg_Dynamic_Emergency_Filter.curvature" interface="" source="frAIburg_Controller.curvature" />
+    <connection connection_priority="50" dest="frAIburg_Dynamic_Emergency_Filter.car_speed" interface="" source="Base_Postioning.speed" />
+    <connection connection_priority="50" dest="frAIburg_Lane_Detection.enable_filter" interface="" source="frAIburg_Planner.enable_front_view" />
+    <filter alias="frAIburg_Ultrasonic_To_MapFilter_Parking" idref="adtf.frAIburg_us_to_map_filter" priority="10">
+     <settings>
+      <property name="Max limit add data to the ring buffer in [m]" type="Float" value="1.0" />
+      <property name="active" type="Bool" value="true" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="Map fuse max area difference, -1 to disable [m2]" type="Float" value="-1.0" />
+      <property name="Map fuse max distance, -1 to disable [m]" type="Float" value="0,05.0" />
+      <property name="Map time of life, -1 to disable [s]" type="Float" value="30.0" />
+      <property name="set ring buffer size, if full map element is added" type="Int" value="2" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter_Parking.UltrasonicSideRight" interface="" source="Base_Config.UltrasonicSideRight" />
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter_Parking.UltrasonicSideLeft" interface="" source="Base_Config.UltrasonicSideLeft" />
+    <filter alias="Video_Display2" idref="adtf.visual.video_display" priority="12">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Zebra_Crossing_Detection" idref="adtf.user.aadc_frAIburg_ZebraCrossingDetection" priority="10">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Transform::Image Height" type="Float" value="1,7.0" />
+      <property name="Transform::Image Width" type="Float" value="1,5.0" />
+      <property name="Transform::scale" type="Int" value="1000" />
+      <property name="ROI::Height" type="Float" value="1,2.0" />
+      <property name="ROI::XOffset" type="Float" value="0,1.0" />
+      <property name="ROI::YOffset" type="Float" value="0,2.0" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="area_tolerance" type="Float" value="0,2.0" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="frAIburg xml sensor" type="String" value="camera basler cropped" />
+      <property name="Max_Distance_Between_Elts" type="Float" value="0,3.0" />
+      <property name="ROI::Width" type="Float" value="1,2.0" />
+      <property name="Zebra_Crossing_Element_Height" type="Float" value="0,455.0" />
+      <property name="Zebra_Crossing_Element_Width" type="Float" value="0,1.0" />
+     </settings>
+    </filter>
+    <subgraph active="false" alias="JuryNotification" idref="JuryNotification" priority="13" />
+    <connection active="false" connection_priority="50" dest="JuryNotification.car_position_to_jury" interface="" source="Base_Postioning.Position" />
+    <filter alias="frAIburg_Parking_Space_Detection" idref="adtf.frAIburg_Parking_Space_Detection" priority="14">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Parking space collision box margin x [m]" type="Float" value="0.0" />
+      <property name="Parking space collision box margin Y [m]" type="Float" value="0.0" />
+      <property name="projected car distance to send status to jury [m]" type="Float" value="-0,3.0" />
+      <property name="xml file with known parking space configuration" type="String" value="../../../src/configuration/RoadSign_LiorTesting.xml" />
+      <property name="Parking space ultrasonic hits to be occupied" type="Int" value="20" />
+      <property name="Car range to scean if parking spot is free [m]" type="Float" value="1,5.0" />
+      <property name="Disabled! projected car distance to send status to jury [m]" type="Float" value="-0,3.0" />
+      <property name="Enbale filter debug modus" type="Bool" value="true" />
+      <property name="Parking space collision box margin half x [m]" type="Float" value="-0,05.0" />
+      <property name="Parking space collision box margin half Y [m]" type="Float" value="0.0" />
+      <property name="time intervall to check in range parking spaces of free  in [s]" type="Float" value="0,1.0" />
+      <property name="xml file with parking space dimension" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dimensions.xml" />
+      <property name="Parking space depth hits to be occupied" type="Int" value="5" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter_Parking.enable" interface="" source="frAIburg_Parking_Space_Detection.Ultrasonic_enable" />
+    <connection active="false" connection_priority="50" dest="JuryNotification.parking_space_to_jury" interface="" source="frAIburg_Parking_Space_Detection.JuryParking" />
+    <connection connection_priority="50" dest="frAIburg_Zebra_Crossing_Detection.Video_Input" interface="" source="Base_Basler.BaslerCamerIPM" />
+    <connection connection_priority="50" dest="frAIburg_Lane_Detection.Video_Input" interface="" source="Base_Basler.BaslerCamerIPM" />
+    <subgraph alias="frAIburg_State_Machine2" idref="frAIburg_State_Machine" priority="15" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine2.sm_jury" interface="" source="Base_Config.Jury_Struct" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine2.sm_planner_status" interface="" source="frAIburg_Planner.planner_status" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine2.sm_maneuver_list" interface="" source="Base_Config.Jury_ManeuverList" />
+    <connection connection_priority="50" dest="frAIburg_Light_Controller.light_command" interface="" source="frAIburg_State_Machine2.sm_light" />
+    <connection connection_priority="50" dest="frAIburg_Planner.behaviour" interface="" source="frAIburg_State_Machine2.sm_behaviour" />
+    <connection connection_priority="50" dest="Base_Config.Driver_Struct" interface="" source="frAIburg_State_Machine2.sm_driver" />
+    <filter alias="frAIburg_CrossingCreator" idref="adtf.user.aadc_frAIburg_CrossingCreator" priority="16">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="zero_sign_angle_offset_y" type="Float" value="-0,11.0" />
+      <property name="zero_sign_angle_offset_x" type="Float" value="-0,36.0" />
+      <property name="check_time_intervall_second" type="Float" value="0,1.0" />
+      <property name="Debug_mode" type="Bool" value="false" />
+      <property name="half_crossing_height" type="Float" value="0,5.0" />
+      <property name="half_crossing_width" type="Float" value="0,5.0" />
+      <property name="Placeholder_2" type="Float" value="0.0" />
+      <property name="property_map_range_check_marker" type="Float" value="1.0" />
+      <property name="property_map_range_check_sign" type="Float" value="1.0" />
+      <property name="Use fix xml crossings" type="Bool" value="false" />
+      <property name="zero_sign_angle_offset_x_stopline" type="Float" value="-0,2.0" />
+      <property name="zero_sign_angle_offset_y_stopline" type="Float" value="-0,15.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_CrossingCreator.crossing_in" interface="" source="frAIburg_Lane_Detection.Crossing" />
+    <filter alias="Object_Detection__Bounding_Box__Filter" idref="adtf.frAIburg_ObjectDetection" priority="17">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="fraiburgxmlconfigpath" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="Minimum_detection_confidence" type="Float" value="0,8.0" />
+      <property name="ROI_Height" type="Int" value="400" />
+      <property name="ROI_Width" type="Int" value="1280" />
+      <property name="ROI_x" type="Int" value="0" />
+      <property name="ROI_y" type="Int" value="0" />
+      <property name="weightspath" type="String" value="/home/aadc/ADTF/weights/faster_rcnn_resnet101_coco_11_06_2017/frozen_inference_graph.pb" />
+     </settings>
+    </filter>
+    <filter alias="Video_Display3" idref="adtf.visual.video_display" priority="18">
+     <settings>
+      <property name="active" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Object_Detection__Bounding_Box__Filter.basler_rgb" interface="" source="Base_Basler.BaslerCamerUndistorted" />
+    <connection active="false" connection_priority="50" dest="Video_Display3.input" interface="" source="Object_Detection__Bounding_Box__Filter.basler_viz" />
+    <filter alias="frAIburg_Road_Sign_To_Map_Filter" idref="adtf.example.roadsign_filter" priority="19">
+     <settings>
+      <property name="xml file known sigins" type="String" value="../../../src/configuration/RoadSign_LiorTesting.xml" />
+      <property name="check time intervall to check signs to inform the jury second [s]" type="Float" value="0,1.0" />
+      <property name="Enable debug mode" type="Bool" value="true" />
+      <property name="Enable load known signs" type="Bool" value="true" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="frAIburg xml configuration camera sensor target" type="String" value="camera basler cropped" />
+      <property name="In range distance to scan for corresponding signs [m]" type="Float" value="0,5.0" />
+      <property name="Min update time between sign map [s]" type="Float" value="0.0" />
+      <property name="Projected distance of a sign to inform the jury[m]" type="Float" value="-0,3.0" />
+      <property name="Sign fuse area [m2]" type="Float" value="-1.0" />
+      <property name="Sign fuse distance [m]" type="Float" value="1.0" />
+      <property name="xml file with sign dimension" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dimensions.xml" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Road_Sign_To_Map_Filter.RoadSignExt" interface="" source="Base_Postioning.RoadSign_ext" />
+    <connection active="false" connection_priority="50" dest="JuryNotification.traffic_sign_to_jury" interface="" source="frAIburg_Road_Sign_To_Map_Filter.JuryTrafficSign" />
+    <filter alias="frAIburg_Ultrasonic_To_MapFilter" idref="adtf.frAIburg_us_to_map_filter" priority="20">
+     <settings>
+      <property name="Map time of life, -1 to disable [s]" type="Float" value="0,2.0" />
+      <property name="Max limit add data to the ring buffer in [m]" type="Float" value="0,5.0" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="Map fuse max area difference, -1 to disable [m2]" type="Float" value="-1.0" />
+      <property name="Map fuse max distance, -1 to disable [m]" type="Float" value="0,05.0" />
+      <property name="set ring buffer size, if full map element is added" type="Int" value="2" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter.enable" interface="" source="frAIburg_Planner.enable_us_right" />
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter.UltrasonicFrontRight" interface="" source="Base_Config.UltrasonicFrontRight" />
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter.UltrasonicSideRight" interface="" source="Base_Config.UltrasonicSideRight" />
+    <connection connection_priority="50" dest="frAIburg_Ultrasonic_To_MapFilter.UltrasonicFrontCenterRight" interface="" source="Base_Config.UltrasonicFrontCenterRight" />
+    <filter alias="Video_Display4" idref="adtf.visual.video_display" priority="21" />
+    <connection connection_priority="50" dest="Video_Display4.input" interface="" source="frAIburg_Zebra_Crossing_Detection.Video_Output_Debug" />
+   </graph>
+  </configuration>
+  <configuration description="" name="frAIburg_Controller">
+   <graph>
+    <filter alias="AADC_Calibration_XML" idref="adtf.aadc.calibrationXML" priority="2">
+     <settings>
+      <property name="Configuration File For Interpolation" type="String" value="/home/aadc/ADTF/src/aadcUser/frAIburg_SteeringController/SteeringAngle.xml" />
+      <property name="Border Warnings to Console" type="Bool" value="false" />
+      <property name="Interpolation" type="Int" value="1" />
+      <property name="Print initial table to Console" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Wheel_Speed_Controller" idref="adtf.frAIburg_wheelSpeedController" priority="3">
+     <settings>
+      <property name="PID::Ki_value" type="Float" value="-130.0" />
+      <property name="PID::Kp_value" type="Float" value="-35.0" />
+      <property name="Controller Typ" type="Int" value="2" />
+      <property name="Debug Mode" type="Bool" value="false" />
+      <property name="PID::Feedforward gain" type="Float" value="-1.0" />
+      <property name="PID::Kd_value" type="Float" value="1.0" />
+      <property name="PID::Maxiumum output" type="Float" value="20.0" />
+      <property name="PID::Minimum output" type="Float" value="-30.0" />
+      <property name="PID::Sample_Interval_[msec]" type="Float" value="0,025.0" />
+      <property name="PT1::Correction Factor" type="Float" value="1,15.0" />
+      <property name="PT1::Gain" type="Float" value="6.0" />
+      <property name="PT1::OutputFactor" type="Float" value="1.0" />
+      <property name="PT1::TimeConstant" type="Float" value="1,5.0" />
+     </settings>
+    </filter>
+    <filter alias="Steering_Controller" idref="adtf.user.steeringcontroller" priority="4" />
+    <inport alias="v_current" />
+    <inport alias="v_set" />
+    <inport alias="goal_point" />
+    <outport alias="u_speed_arduino" />
+    <outport alias="u_steering_arduino" />
+    <connection connection_priority="50" dest="AADC_Calibration_XML.input_value" interface="" source="Steering_Controller.curvature" />
+    <connection connection_priority="50" dest="Steering_Controller.angle_feedfwd" interface="" source="AADC_Calibration_XML.output_value" />
+    <connection connection_priority="50" dest="u_steering_arduino" interface="" source="Steering_Controller.servo_angle" />
+    <connection connection_priority="50" dest="u_speed_arduino" interface="" source="frAIburg_Wheel_Speed_Controller.actuator_output" />
+    <connection connection_priority="50" dest="Steering_Controller.goal_point" interface="" source="goal_point" />
+    <connection connection_priority="50" dest="frAIburg_Wheel_Speed_Controller.set_WheelSpeed" interface="" source="v_set" />
+    <connection connection_priority="50" dest="frAIburg_Wheel_Speed_Controller.measured_wheelSpeed" interface="" source="v_current" />
+    <outport alias="curvature" />
+    <connection connection_priority="50" dest="curvature" interface="" source="Steering_Controller.curvature" />
+   </graph>
+  </configuration>
+  <configuration description="" name="JuryNotification">
+   <graph>
+    <inport alias="traffic_sign_to_jury" />
+    <inport alias="car_position_to_jury" />
+    <inport alias="parking_space_to_jury" />
+    <inport alias="obstacle_to_jury" />
+    <connection connection_priority="50" dest="PositionOutput.Position" interface="" source="car_position_to_jury" />
+    <connection connection_priority="50" dest="TrafficSignOutput.TrafficSign" interface="" source="traffic_sign_to_jury" />
+    <subgraph alias="TrafficSignOutput" idref="TrafficSignOutput" priority="2" url="tcp://192.168.1.20:30001" />
+    <subgraph alias="PositionOutput" idref="PositionOutput" priority="3" url="udp://192.168.1.20:30000" />
+    <connection connection_priority="50" dest="TrafficSignOutput.ParkingSpace" interface="" source="parking_space_to_jury" />
+    <connection connection_priority="50" dest="TrafficSignOutput.Obstacle" interface="" source="obstacle_to_jury" />
+   </graph>
+  </configuration>
+  <configuration description="" name="TrafficSignOutput">
+   <graph>
+    <inport alias="TrafficSign" />
+    <inport alias="ParkingSpace" />
+    <inport alias="Obstacle" />
+   </graph>
+  </configuration>
+  <configuration description="" name="PositionOutput">
+   <graph>
+    <inport alias="Position" />
+   </graph>
+  </configuration>
+  <configuration description="" name="ObstacleUpdateOutput">
+   <graph>
+    <inport alias="Obstacle" stream="tcp://192.168.0.3:30002" />
+   </graph>
+  </configuration>
+  <configuration description="" name="ParkingSpaceOutput">
+   <graph>
+    <inport alias="ParkingSpace" stream="tcp://192.168.0.3:30003" />
+   </graph>
+  </configuration>
+  <configuration description="" name="DemoTask">
+   <graph>
+    <filter alias="frAIburg_Thrift_Client" idref="frAIburg.aadc.ThriftClient" priority="1">
+     <settings>
+      <property name="fraiburgxmlconfigpath" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="EnableDebugLogConsole" type="Bool" value="false" />
+      <property name="Thrift IP Address" type="String" value="localhost" />
+      <property name="Thrift Port" type="Int" value="1833" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Singleton_Map_Visualization" idref="adtf.example.map_visualization_filter" priority="1">
+     <settings>
+      <property name="Desktop" type="Int" value="0" />
+      <property name="Enable load frAIburg test map" type="Bool" value="false" />
+      <property name="Show text at start" type="Bool" value="true" />
+      <property name="UI update intervall in [s]" type="Float" value="0,05.0" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Singleton_Map" idref="adtf.example.map_filter" priority="1">
+     <settings>
+      <property name="Car postion unknown timeout [s]" type="Float" value="60.0" />
+      <property name="Car postion update intervall in [s]" type="Float" value="0,05.0" />
+      <property name="Car remove elements under protected distance to car [m]" type="Float" value="-2.0" />
+      <property name="Car reposition jump distance between pin postion update[m]" type="Float" value="0,1.0" />
+      <property name="Car reposition past elements to update [s]" type="Float" value="30.0" />
+     </settings>
+    </filter>
+    <filter alias="Video_Display" idref="adtf.visual.video_display" priority="2" />
+    <filter alias="frAIburg_Realsense_Camera" idref="adtf.aadc.frAIburg_realsense" priority="2">
+     <settings>
+      <property name="ColorStream::Color Stream FPS" type="Int" value="30" />
+      <property name="ColorStream::Color Stream Resolution" type="String" value="640x480" />
+      <property name="ColorStream::Enable Color Stream" type="Bool" value="true" />
+      <property name="DepthStream::Depth Stream FPS" type="Int" value="30" />
+      <property name="DepthStream::Enable Depth Stream" type="Bool" value="true" />
+      <property name="Enable Debug Logging" type="Bool" value="false" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MAX" type="Float" value="65535.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CLAMP_MIN" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTORL_TEXTURE_DIFFERENCE_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_DECREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_ESTIMATE_MEDIAN_INCREMENT" type="Float" value="5.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_LR_THRESHOLD" type="Float" value="24.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_MEDIAN_THRESHOLD" type="Float" value="192.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_NEIGHBOR_THRESHOLD" type="Float" value="7.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MAXIMUM_THRESHOLD" type="Float" value="512.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SCORE_MINIMUM_THRESHOLD" type="Float" value="1.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_SECOND_PEAK_THRESHOLD" type="Float" value="27.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_CONTROL_TEXTURE_COUNT_THRESHOLD" type="Float" value="6.0" />
+      <property name="R200::RS_OPTION_R200_DEPTH_UNITS" type="Float" value="1000.0" />
+      <property name="R200::RS_OPTION_R200_EMITTER_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_AUTO_EYPOSURE_ENABLED" type="Float" value="0.0" />
+      <property name="R200::RS_OPTION_R200_LR_EXPOSURE" type="Float" value="164.0" />
+      <property name="R200::RS_OPTION_R200_LR_GAIN" type="Float" value="400.0" />
+      <property name="RS_OPTION_COLOR_BACKLIGHT_COMPENSATION" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_BRIGHTNESS" type="Float" value="56.0" />
+      <property name="RS_OPTION_COLOR_CONTRAST" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_ENABLE_AUTO_WHITE_BALANCE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_EXPOSURE" type="Float" value="1.0" />
+      <property name="RS_OPTION_COLOR_GAIN" type="Float" value="32.0" />
+      <property name="RS_OPTION_COLOR_GAMMA" type="Float" value="220.0" />
+      <property name="RS_OPTION_COLOR_HUE" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_SATURATION" type="Float" value="128.0" />
+      <property name="RS_OPTION_COLOR_SHARPENSS" type="Float" value="0.0" />
+      <property name="RS_OPTION_COLOR_WHITE_BALANCE" type="Float" value="6500.0" />
+      <property name="RS_OPTION_FRAMES_QUEUE_SIZE" type="Float" value="20.0" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="Video_Display.input" interface="" source="frAIburg_Realsense_Camera.outputRGB" />
+    <connection connection_priority="50" dest="frAIburg_Thrift_Client.r200_rgb_input" interface="" source="frAIburg_Realsense_Camera.outputRGB" />
+    <connection connection_priority="50" dest="frAIburg_Thrift_Client.raw_depth_input" interface="" source="frAIburg_Realsense_Camera.outputDepthRaw" />
+    <filter alias="frAIburg_Basler_Camera" idref="adtf.frAIburg.baslercamera" priority="4">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Brightness" type="Float" value="0,5.0" />
+      <property name="Calibration File" type="String" value="/home/aadc/ADTF/src/configuration/kalibr_basler_cropped_1280x400.yml" />
+      <property name="FPS max" type="Float" value="40.0" />
+      <property name="Enable_GPU_undistort" type="Bool" value="false" />
+      <property name="Exposure time" type="Float" value="0,005.0" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="ROIBrightness::Height" type="Int" value="300" />
+      <property name="ROIBrightness::Show ROI" type="Bool" value="false" />
+      <property name="ROIBrightness::Width" type="Int" value="1280" />
+      <property name="ROIBrightness::XOffset" type="Int" value="0" />
+      <property name="ROIBrightness::YOffset" type="Int" value="100" />
+      <property name="Stream column offset" type="Int" value="0" />
+      <property name="Stream Height" type="Int" value="400" />
+      <property name="Stream row offset" type="Int" value="380" />
+      <property name="Stream Width" type="Int" value="1280" />
+     </settings>
+    </filter>
+    <subgraph alias="Base_Postioning" idref="Base_Postioning" priority="2" />
+    <subgraph alias="Base_Config2" idref="Base_Config" priority="1" />
+    <connection connection_priority="50" dest="frAIburg_Singleton_Map.car_Postion" interface="" source="Base_Postioning.Position" />
+    <connection connection_priority="50" dest="Base_Postioning.BaslerCamer_Undistorted" interface="" source="frAIburg_Basler_Camera.outputBGR" />
+    <connection connection_priority="50" dest="Base_Postioning.InerMeasUnit_Struct" interface="" source="Base_Config2.InerMeasUnitStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelLeft_Struct" interface="" source="Base_Config2.WheelLeftStruct" />
+    <connection connection_priority="50" dest="Base_Postioning.WheelRight_Struct" interface="" source="Base_Config2.WheelRightStruct" />
+    <filter alias="frAIburg_Dynamic_Emergency_Filter" idref="adtf.frAIburg_dynamic_emergency_filter" priority="12">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Enagle Map collision check" type="Bool" value="true" />
+      <property name="Ultrasonic max limit add to ring buffer in [m]" type="Float" value="0,3.0" />
+      <property name="Enbale filter debug modus" type="Bool" value="false" />
+      <property name="frAIburg emergency filter xml configuration" type="String" value="/home/aadc/ADTF/src/configuration/frAIburg_configuration_dynamic_emergency_filter.xml" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="set ring buffer size, if full emergency is check with mean" type="Int" value="2" />
+      <property name="Time interval to check map collition in [s]" type="Float" value="0,05.0" />
+      <property name="Use planner path for collision check" type="Bool" value="true" />
+     </settings>
+    </filter>
+    <connection connection_priority="50" dest="frAIburg_Dynamic_Emergency_Filter.UltrasonicFrontCenter" interface="" source="Base_Config2.UltrasonicFrontCenter" />
+    <filter alias="frAIburg_Planner" idref="adtf.frAIburg_planner" priority="6">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Path planner: debug mode" type="Bool" value="true" />
+      <property name="Path related: debug mode" type="Bool" value="false" />
+      <property name="Speed related: debug mode" type="Bool" value="false" />
+      <property name="Filter communication: debug mode" type="Bool" value="false" />
+      <property name="Goal point generation: debug mode" type="Bool" value="false" />
+      <property name="Speed planner: debug mode" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="frAIburg_Lane_Detection" idref="adtf.user.aadc_frAIburg_LaneDetection" priority="8">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Algorithm::Image Binarization Threshold" type="Int" value="180" />
+      <property name="Algorithm::Step Width" type="Float" value="0,01.0" />
+      <property name="Debug_Mode" type="Bool" value="true" />
+      <property name="Transform::debug_pnt_x" type="Float" value="0,7.0" />
+      <property name="Transform::debug_pnt_y" type="Float" value="0,61.0" />
+      <property name="Transform::Image Height" type="Float" value="1.0" />
+      <property name="Transform::Image Width" type="Float" value="1,8.0" />
+      <property name="Transform::scale" type="Int" value="200" />
+      <property name="Algorithm::Detection Distance" type="Float" value="0,04.0" />
+      <property name="Algorithm::Maximum Line Width" type="Float" value="0,06.0" />
+      <property name="Algorithm::Minimum Line Contrast" type="Int" value="50" />
+      <property name="Algorithm::Minimum Line Width" type="Float" value="0,02.0" />
+      <property name="frAIburg xml configuration" type="String" value="/home/aadc/ADTF/configuration_files/frAIburg_configuration.xml" />
+      <property name="frAIburg xml configuration camera sensor target" type="String" value="camera basler cropped" />
+      <property name="ROI::Height" type="Float" value="1,1.0" />
+      <property name="ROI::Width" type="Float" value="1,7.0" />
+      <property name="ROI::XOffset" type="Float" value="0,2.0" />
+      <property name="ROI::YOffset" type="Float" value="0,1.0" />
+     </settings>
+    </filter>
+    <subgraph alias="frAIburg_Controller" idref="frAIburg_Controller" priority="7" />
+    <connection connection_priority="50" dest="frAIburg_Lane_Detection.Video_Input" interface="" source="frAIburg_Basler_Camera.outputBGR" />
+    <connection connection_priority="50" dest="frAIburg_Lane_Detection.enable_filter" interface="" source="frAIburg_Planner.enable_front_view" />
+    <connection connection_priority="50" dest="frAIburg_Planner.VerticalLane" interface="" source="frAIburg_Lane_Detection.Lane" />
+    <connection connection_priority="50" dest="Base_Config2.SpeedController" interface="" source="frAIburg_Controller.u_speed_arduino" />
+    <connection connection_priority="50" dest="Base_Config2.SteeringController" interface="" source="frAIburg_Controller.u_steering_arduino" />
+    <connection connection_priority="50" dest="frAIburg_Controller.v_set" interface="" source="frAIburg_Planner.v_set" />
+    <connection connection_priority="50" dest="frAIburg_Controller.v_current" interface="" source="Base_Postioning.speed" />
+    <connection connection_priority="50" dest="frAIburg_Controller.goal_point" interface="" source="frAIburg_Planner.goal_point" />
+    <connection connection_priority="50" dest="frAIburg_Planner.delta_s" interface="" source="Base_Postioning.delta_s" />
+    <connection connection_priority="50" dest="frAIburg_Planner.Position" interface="" source="Base_Postioning.Position" />
+    <connection connection_priority="50" dest="frAIburg_Planner.behaviour" interface="" source="frAIburg_Dynamic_Emergency_Filter.PlannerBehaviour" />
+    <connection connection_priority="50" dest="frAIburg_Planner.behaviour" interface="" source="frAIburg_Thrift_Client.PlannerBehaviour" />
+   </graph>
+  </configuration>
+  <configuration description="" name="frAIburg_State_Machine">
+   <graph>
+    <filter alias="frAIburg_State_Machine" idref="adtf.example.state_machine_new" priority="8">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="ADTF_PROPERTY_DEBUG_ENABLED_NAME" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <filter alias="AADC_State_Controller" idref="adtf.aadc.stateController" priority="13">
+     <settings>
+      <property name="active" type="Bool" value="true" />
+      <property name="Debug Output to Console" type="Bool" value="false" />
+     </settings>
+    </filter>
+    <inport alias="sm_jury" />
+    <outport alias="sm_driver" />
+    <outport alias="sm_behaviour" />
+    <outport alias="sm_light" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine.Jury_Struct" interface="" source="sm_jury" />
+    <connection connection_priority="50" dest="AADC_State_Controller.Jury_Struct" interface="" source="frAIburg_State_Machine.Jury_Struct_Out" />
+    <connection connection_priority="50" dest="sm_driver" interface="" source="AADC_State_Controller.Driver_Struct" />
+    <connection connection_priority="50" dest="sm_behaviour" interface="" source="frAIburg_State_Machine.behaviour_output" />
+    <connection connection_priority="50" dest="sm_light" interface="" source="frAIburg_State_Machine.light_output" />
+    <connection connection_priority="50" dest="AADC_State_Controller" interface="" source="frAIburg_State_Machine.Set_State_Ready" />
+    <connection connection_priority="50" dest="AADC_State_Controller" interface="" source="frAIburg_State_Machine.Set_State_Running" />
+    <connection connection_priority="50" dest="AADC_State_Controller" interface="" source="frAIburg_State_Machine.Set_State_Complete" />
+    <connection connection_priority="50" dest="AADC_State_Controller.Increment_Maneuver_ID" interface="" source="frAIburg_State_Machine.Increment_manouver" />
+    <inport alias="sm_planner_status" />
+    <inport alias="sm_maneuver_list" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine.Planner_status" interface="" source="sm_planner_status" />
+    <connection connection_priority="50" dest="frAIburg_State_Machine.Maneuver_List" interface="" source="sm_maneuver_list" />
+    <connection connection_priority="50" dest="AADC_State_Controller.Maneuver_List" interface="" source="sm_maneuver_list" />
+   </graph>
+  </configuration>
+ </configurations>
+ <fileinfo adtfversion="2.14.0" configversion="1.3" />
+ <configuration_settings />
+ <plugins>
+  <plugin optional="true" url="../../../_install/linux64/bin/$BUILD_TYPE_2$/*.plb" />
+  <plugin optional="true" url="../../../_install/win64_vc100/bin/$BUILD_TYPE_2$/*.plb" />
+ </plugins>
+ <adtf_include source="../../BaseConfig/IncludeConfig.xml" />
+</adtf:project>

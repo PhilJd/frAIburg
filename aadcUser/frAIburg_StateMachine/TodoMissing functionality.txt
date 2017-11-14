@@ -1,0 +1,16 @@
+
+
+Todo/Missing functionality:
+
+- Pedestrian orientation
+- Car in front
+- T_Crossing orientation
+- Parking spot free or not
+- car orientation?
+
+I added, need to be tested:
+- slow down at pedestrian child
+-     STREET_TRAFFIC_ROAD_WORKS,
+    STREET_TRAFFIC_SIGN_SPEED_50,
+    STREET_TRAFFIC_SIGN_SPEED_100, not handled
+- PEDESTRIAN at crossing

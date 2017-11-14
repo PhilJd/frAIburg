@@ -1,0 +1,436 @@
+<!doctype html>
+<!--
+frAiburg web app, communication with a thrift server for the demo task.
+  main functions:
+  - select a person in a list to drive to
+  - add a new person with name and image
+ the Material Design CSS Framework mui is used: https://github.com/muicss/mui
+ Tornado Web Server and thrift is used
+ Markus Merklinger
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--browser to launch the page fullscreen from the home screen-->
+    <meta name="mobile-web-app-capable" content="yes"><!-- chrome -->
+    <meta name="apple-mobile-web-app-capable" content="yes"><!-- ios -->
+    <!-- load MUI (material ui) -->
+    <link href="//cdn.muicss.com/mui-0.9.27/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.9.27/js/mui.min.js"></script>
+    <!-- load Thrift files -->
+    <script type="text/javascript" src="js/thrift.js"></script>
+    <script type="text/javascript" src="gen-js/newservice_types.js"></script>
+    <script type="text/javascript" src="gen-js/NewService.js"></script>
+    <!-- <script type="text/javascript" src="js/jquery-latest.min.js"></script>  not used for now-->
+    <meta name="theme-color" content="#2496ef" /> <!-- android status bar color -->
+    <meta name="application-name" content="frAIburg"> <!-- add to home screen name-->
+    <!-- icon created with: https://www.favicon-generator.org/-->
+    <link rel="apple-touch-icon" sizes="57x57" href="icon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="icon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="icon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="icon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="icon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
+    <style>
+      /*  CSS for a fixed header and a sticky footer: */
+      /**
+       * Body CSS
+       */
+      html,
+      body {
+        font-family: "Roboto", "Open Sans", sans-serif;
+        height: 100%;
+        /* background-color: #272727;
+        color: #fff; text*/
+      }
+      html,
+      body,
+      input,
+      textarea,
+      button {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+      }
+      /**
+       * Header CSS
+       */
+      header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 2;
+      }
+      header ul.mui-list--inline {
+        margin-bottom: 0;
+      }
+      header a {
+       color: white;
+      }
+      /**
+       * Content CSS
+       */
+      #content-wrapper {
+        box-sizing: border-box;
+        min-height: 100%;
+        margin-bottom: -80px;
+        padding-bottom: 80px;
+      }
+      /**
+       * Footer CSS
+       */
+      footer {
+        box-sizing: border-box;
+        height: 100px;
+        background-color: #eee;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+      }
+    </style>
+
+  </head>
+
+  <!-- JS functions-->
+  <script>
+    function getThriftClient() {
+      //returns the client form the communicationen
+      //with the thrift py server
+      //protocol is TJSONProtocol (only available in js)
+      var transport = new Thrift.Transport("/thrift");
+      var protocol  = new Thrift.Protocol(transport);
+      return new NewServiceClient(protocol);
+    }
+
+    function callThriftServerPing() {
+      //send a ping msg to the server
+      var client   = getThriftClient();
+      console.log("server ping result: "+ client.ping('hello from web app'));
+    }
+
+    function callThriftStartDriving() {
+      //send a ping msg to the server
+      var client   = getThriftClient();
+      if (client.start_driving()){
+        alert("start driving")
+      }
+    }
+
+    function resetPersonList(name) {
+        //get all aviable personsn form the thrift server
+        //and fill the name list
+        var client = getThriftClient();
+        var list_name = client.get_all_names();
+        for(var i = 0, size = list_name.length; i < size ; i++){
+          appedPersonList(list_name[i])
+        }
+    }
+
+    window.addEventListener("DOMContentLoaded", function(){
+      //on start: load the content for the list form the
+      //thrift server and fill the list
+      callThriftServerPing();
+      resetPersonList();
+    });;
+
+    function callThriftDriveTo(name) {
+      console.log("called drive to: " + name);
+      var client = getThriftClient();
+      if (client.drive_to(name)){
+        alert("driving to "+ name);
+      }else{
+        console.warn(name + " not recognized or not in list")
+        alert(name + " not recognized");
+      }
+    }
+
+    function callThriftRemovePerson(name) {
+      var client = getThriftClient();
+      if (client.remove_person(name)){
+        console.log("remove from thrift server: "+ name);
+      }else{
+        console.warn(name + " not removed from thrift server");
+      }
+
+    }
+
+    function nameToValidIDFormat(name) {
+      //return a name string to a valid format:
+      // trim replaces space and dots
+      return name.trim().replace(/ /g, "_").replace(/\./g,'_').toLowerCase();
+    }
+    function isPersonInList(name) {
+      return document.getElementById(nameToValidIDFormat(name)) != null
+    }
+
+    function appedPersonList(name) {
+      // add a new element to the list
+      // trim and replace ALL spaces to set as a id
+      name_id = nameToValidIDFormat(name);
+      console.log("adding name to list : " + name_id);
+
+      // Find a <table> element with id="myTable":
+      var table = document.getElementById("id_name_content");
+      var row = table.insertRow(0); //row at the top
+      row.id = name_id + "_row";
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+
+      //person name to the left
+      cell1.innerHTML = name;
+
+      // in the right cell add two buttons: drive to and remove
+      //set the buttom id to the name so that that in
+      //onclick argument for callThriftDriveTo the name is set via the id
+      cell2.innerHTML = "<button class=\"mui-btn mui-btn--flat mui-btn--large mui-btn--raised\" id ="+ name_id +" \
+                          onclick=\"callThriftDriveTo(this.id)\">drive to</button>\
+                          <button class=\"mui-btn mui-btn--flat mui-btn--large mui-btn--raised mui-btn--danger\" id ="+ name_id +" \
+                          onclick=\"removePersonList(this.id)\">remove</button>";
+    }
+
+    function removePersonList(name_id) {
+      //remove person name form the list and thrift server
+      if (confirm("Are you sure you want to remove "+ name_id)) {
+        console.log("removed personn from list:" + name_id);
+        var table = document.getElementById("id_name_content");
+        var row = document.getElementById(name_id + "_row");
+        table.removeChild(row);
+        callThriftRemovePerson(name_id)
+      }
+    }
+
+    var modalElOverlay
+    function showLoadingOverlay(evt) {
+      //OVERLAY for loading
+      //optinal add loading animation https://codepen.io/le717/pen/yYZOZR
+      modalElOverlay = document.createElement('div');
+      modalElOverlay.className = "mui-container";
+      var panel = document.createElement('div');
+      panel.className = "mui-panel";
+      modalElOverlay.appendChild(panel);
+
+      var textnode = document.createElement("div");
+      textnode.className = "mui--text-headline";
+      // textnode.className = "mui--text-center";
+      textnode.innerHTML ="loading...";
+      panel.appendChild(textnode);
+      // show modal
+      mui.overlay('on', modalElOverlay);
+    }
+
+    function hideLoadingOverlay(evt) {
+      if (modalElOverlay){
+        mui.overlay('off', modalElOverlay);
+      }
+    }
+
+    function callThriftAddPerson(name_id, width, height , dataurl) {
+      // send an image to the py server
+      //return true if person was added
+      var img_param = new TImageParams();
+      img_param.height = height;
+      img_param.width = width;
+      img_param.name = name_id;
+      //get name form text input in valid format
+      // change the formate to have the same as ids for remove buttons
+
+      var data_img = new TAppDataRaw();
+      data_img.raw_data = dataurl;
+      console.log("img_param", img_param);
+      console.log("raw_data length: ", dataurl.length);
+
+      //send to thrift python server
+      var client = getThriftClient();
+      if (client.add_person(data_img, img_param)){
+        //alert("New added "+ img_param.name);
+        return true;
+      }else{
+        //alert("Updated "+ img_param.name);
+        console.warn("Faild to add or already added"+ img_param.name);
+        return false;
+      }
+    }
+
+    function scaleImage(img, max_width, max_hight) {
+      // scale a image with canvas
+      //returns canvas
+      // https://stackoverflow.com/questions/10333971/html5-pre-resize-images-before-uploading
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      var width = img.width;
+      var height = img.height;
+
+      if (width > height) {
+        if (width > max_width) {
+          height *= max_width / width;
+          width = max_width;
+        }
+      } else {
+        if (height > max_hight) {
+          width *= max_hight / height;
+          height = max_hight;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      return canvas //
+    }
+
+    function inputImgOnChange(evt) {
+      // call if the input img was changed
+      // get files captured img through input
+      // and send to the thrift server
+      var fileInput = evt.target.files;
+      if(fileInput.length > 0){
+
+        showLoadingOverlay();
+
+        var file = fileInput[0];
+
+        var reader = new FileReader;
+        //FileReader API is an asynchronous AP -> onload is needed
+        reader.onload = function() {
+            var image = new Image();
+            image.onload = function() {
+                //get name form text input in valid format
+                // change the formate to have the same as ids for remove buttons
+                var name_id = nameToValidIDFormat(document.getElementById("id_input_person_name").value);
+                if (name_id.length){
+                  var MAX_WIDTH = 800;
+                  var MAX_HEIGHT = 600;
+
+                  //Pre-resize images before uploading
+                  canvas = scaleImage(image, MAX_WIDTH, MAX_HEIGHT)
+                  if (callThriftAddPerson(name_id, canvas.height, canvas.width,
+                    canvas.toDataURL("image/jpeg")))
+                  {
+                    if (!isPersonInList(name_id)){
+                      appedPersonList(name_id);
+                    }else{
+                      console.log(name_id + "already in list")
+                    }
+                  }
+                  hideLoadingOverlay();
+                }else{
+                  alert("no name set in the text input filed.");
+                  hideLoadingOverlay();  //turn off the loading overlay
+                }
+
+            };
+            //image.src = picURL; //image.onload is called
+            image.src = this.result;
+
+        };
+
+        //Base64 for safe to upload via HTTP format.
+        reader.readAsDataURL(file);
+
+        }else{
+          console.console.warn();("fileInput enmpty");
+        }
+    }
+  </script>
+
+  <body>
+  	<!-- HTML goes here -->
+  	<!--Header: Appbar -->
+    <header class="mui-appbar mui--z1">
+      <!-- content and layout of the appbar:-->
+      <div class="mui-container">
+        <table width="100%">
+          <tr class="mui--appbar-height">
+            <td class="mui--text-title">frAIburg</td>
+            <td align="right">
+              <ul class="mui-list--inline mui--text-body2">
+                <li><a href="#">About</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </header>
+     <!-- content to the main content window.-->
+     <!-- Since the header is fixed, use the .mui appbar-height helper to
+     	 add padding to the top of the main content window:-->
+    <div id="content-wrapper" class="mui--text-center">
+      <div class="mui-container">
+          <!-- mui-container  Container is centered on page with 15px of
+               padding on either side. -->
+        <div class="mui--appbar-height"></div>
+        <br>
+        <br>
+        <!-- INPUTS -->
+        <!-- ping button to test connection with the thrift server
+        <div class="mui-panel">
+             <button class="mui-btn mui-btn--raised" onclick="callThriftServerPing()">Call thrift server ping</button>
+        </div>
+        -->
+
+        <div class="mui-panel"> <!-- Card with white backgroud -->
+            <!-- input for a new person: text and img input -->
+            <form class="mui-form" action="javascript:void(0);"> <!-- action void to disable reload the page-->
+              <legend>Add a Person</legend>
+              <!-- textfield for name input -->
+              <div class="mui-textfield mui-textfield--float-label">
+                <input type="text" required id="id_input_person_name">
+                <label>Select a Name</label> <!-- text filed usage -->
+              </div>
+                <!-- Photo input use the buttom for input click to look nicer-->
+               <input type="file" accept="image/jpeg" id="id_input_person_img"
+                 style="display:none;" onchange="inputImgOnChange(event)" />
+               <!-- whith;: <button class="mui-btn mui-btn--large mui-btn--raised" -->
+               <button class="mui-btn mui-btn--large mui-btn--raised"
+                  onclick="document.getElementById('id_input_person_img').click();">take a photo and send</button>
+            </form>
+        </div>
+        <!-- dynamic table with all person to select: add new content
+         on page load add content from server and add new person in from -->
+    		<table class="mui-table mui-table--bordered">
+    		  <thead>
+    		    <tr>
+              <th>Names</th>
+    		      <th></th><!-- enmpty buttom will be shown below-->
+    		    </tr>
+    		  </thead>
+    		  <tbody id="id_name_content">
+    		   <!-- Dynmic list with all persons
+            <tr>
+    		      <td>Cell 1-1</td>
+    		    </tr>
+           -->
+    		  </tbody>
+    		</table>
+          <div class="mui-panel">
+               <button class="mui-btn mui-btn--flat mui-btn--large mui-btn--raised mui-btn--primary" onclick="callThriftStartDriving()">Toggle driving</button>
+          </div>
+        </div>
+      </div>
+      <!--footer: at bottom -->
+      <footer>
+        <div class="mui-container mui--text-center mui--text-bottom" >
+          Made with ♥ by frAIburg</a>
+          <br>
+
+          <div style="height: 40px; width: 40px;  margin:0 auto; margin-top: 10ai px !important;">
+            <!-- centered with margin:0 auto-->
+            <img src="icon/aadc_app_ico.png" style="width: 100%;max-height: 100%;" />
+          </div>
+        </div>
+
+    </footer>
+  </body>
+</html>

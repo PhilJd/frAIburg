@@ -1,0 +1,9 @@
+pedestrian_left
+pedestrian_right
+pedestrian_front
+pedestrian_back
+child
+car_left
+car_right
+car_front
+car_back

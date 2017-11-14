@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<adtf:configuration xmlns:adtf="adtf">
+ <ce_layouts>
+  <configuration horizontal_scrollbar_value="1" name="Live_Visualization" show="true" tab_pos="0" vertical_scrollbar_value="114" zoomfactor="1,000000">
+   <component height="50" name="Base_Config" width="172" x="80" y="204" />
+   <component height="98" name="AADC_Converter_Wheels" width="172" x="80" y="204">
+    <input_pin name="WheelLeft_Struct" />
+    <input_pin name="WheelRight_Struct" />
+   </component>
+   <component height="170" name="AADC_Sensor_Analyzer" width="172" x="80" y="204">
+    <input_pin name="InerMeasUnitStruct" />
+    <input_pin name="WheelRightStruct" />
+    <input_pin name="WheelLeftStruct" />
+    <input_pin name="VoltageStruct" />
+    <input_pin name="UltrasonicStruct" />
+   </component>
+   <component height="290" name="AADC_Car_Controller" width="172" x="80" y="204">
+    <output_pin name="SpeedController" />
+    <output_pin name="SteeringController" />
+    <output_pin name="headLightEnabled" />
+    <output_pin name="brakeLightEnabled" />
+    <output_pin name="reverseLightEnabled" />
+    <output_pin name="turnSignalLeftEnabled" />
+    <output_pin name="turnSignalRightEnabled" />
+    <output_pin name="USSFrontEnabled" />
+    <output_pin name="USSRearEnabled" />
+    <output_pin name="hazzardLightEnabled" />
+   </component>
+   <component height="74" name="AADC_AHRS_Calculator" width="172" x="80" y="204">
+    <input_pin name="InerMeasUnit_Struct" />
+    <output_pin name="InerMeasUnit_Struct_Updated" />
+   </component>
+   <component height="170" name="AADC_Sensor_Visualization" width="172" x="80" y="204">
+    <input_pin name="WheelLeftStruct" />
+    <input_pin name="WheelRightStruct" />
+    <input_pin name="UltrasonicStruct" />
+    <input_pin name="VoltageStruct" />
+    <input_pin name="InerMeasUnitStruct" />
+   </component>
+   <component height="50" name="Signal_View" width="172" x="80" y="204" />
+   <component height="50" name="AADC_Watchdog_Trigger" width="172" x="50" y="100" />
+   <connection dest="AADC_Sensor_Analyzer" dest_pin="InerMeasUnitStruct" reldiff="0" shape_type="1" source="AADC_AHRS_Calculator" source_pin="InerMeasUnit_Struct_Updated" x_p2="423" x_p3="423" x_p4="60" x_p5="60" y_p2="246" y_p3="354" y_p4="354" y_p5="246" />
+   <connection dest="AADC_Sensor_Visualization" dest_pin="InerMeasUnitStruct" reldiff="0" shape_type="1" source="AADC_AHRS_Calculator" source_pin="InerMeasUnit_Struct_Updated" x_p2="423" x_p3="423" x_p4="52" x_p5="52" y_p2="246" y_p3="342" y_p4="342" y_p5="342" />
+  </configuration>
+  <configuration horizontal_scrollbar_value="25" name="frAiburg_dataset_recording" show="true" tab_pos="3" vertical_scrollbar_value="125" zoomfactor="1,000000">
+   <component height="50" name="Jury_Struct" width="75" x="80" y="180" />
+   <component height="50" name="Jury_ManeuverList" width="118" x="80" y="180" />
+   <component height="50" name="Driver_Struct" width="89" x="50" y="100" />
+   <component height="166" name="Jury_Config" width="334" x="110" y="308" />
+   <component height="74" name="AADC_Bool_Value_Generator" width="182" x="110" y="308">
+    <output_pin name="BoolValue" />
+   </component>
+   <component height="170" name="AADC_Realsense_Camera" width="172" x="110" y="308">
+    <output_pin name="outputRGB" />
+    <output_pin name="outputDepthRaw" />
+    <output_pin name="outputDepthVisualization" />
+    <output_pin name="outputInfraRed1" />
+    <output_pin name="outputInfraRed2" />
+   </component>
+   <component height="98" name="Camera_Snapshot_Filter3" width="172" x="110" y="308">
+    <input_pin name="Video_Input" />
+    <input_pin name="trigger" />
+   </component>
+   <component height="98" name="Camera_Snapshot_Filter2" width="172" x="110" y="308">
+    <input_pin name="trigger" />
+    <input_pin name="Video_Input" />
+   </component>
+   <component height="98" name="Camera_Snapshot_Filter" width="172" x="110" y="308">
+    <input_pin name="Video_Input" />
+    <input_pin name="trigger" />
+   </component>
+   <component height="98" name="AADC_Basler_Camera" width="172" x="80" y="180">
+    <output_pin name="outputRGB" />
+    <output_pin name="ROI_GCL" />
+   </component>
+   <connection dest="Camera_Snapshot_Filter2" dest_pin="Video_Input" reldiff="0" shape_type="2" source="AADC_Realsense_Camera" source_pin="outputDepthVisualization" x_p2="302" x_p3="302" x_p4="94" x_p5="94" y_p2="398" y_p3="386" y_p4="386" y_p5="374" />
+   <connection dest="Camera_Snapshot_Filter3" dest_pin="trigger" reldiff="0" shape_type="1" source="AADC_Bool_Value_Generator" source_pin="BoolValue" x_p2="304" x_p3="304" x_p4="94" x_p5="94" y_p2="350" y_p3="362" y_p4="362" y_p5="374" />
+   <connection dest="Camera_Snapshot_Filter" dest_pin="trigger" reldiff="0" shape_type="1" source="AADC_Bool_Value_Generator" source_pin="BoolValue" x_p2="304" x_p3="304" x_p4="94" x_p5="94" y_p2="350" y_p3="362" y_p4="362" y_p5="374" />
+   <connection dest="Camera_Snapshot_Filter2" dest_pin="trigger" reldiff="0" shape_type="1" source="AADC_Bool_Value_Generator" source_pin="BoolValue" x_p2="304" x_p3="304" x_p4="98" x_p5="98" y_p2="350" y_p3="350" y_p4="350" y_p5="350" />
+   <connection dest="Jury_Config" dest_pin="Emergency_Stop_Loopback_raw" reldiff="0" shape_type="5" source="Jury_Config" source_pin="Emergency_Stop_raw" x_p2="456" x_p3="456" x_p4="90" x_p5="90" y_p2="370" y_p3="552" y_p4="552" y_p5="370" />
+   <connection dest="" dest_pin="Jury_ManeuverList" reldiff="0" shape_type="2" source="Jury_Config" source_pin="Jury_ManeuverList_raw" x_p2="464" x_p3="464" x_p4="112" x_p5="112" y_p2="428" y_p3="310" y_p4="310" y_p5="193" />
+   <connection dest="Jury_Config" dest_pin="Driver_Struct_raw" reldiff="0" shape_type="3" source="" source_pin="Driver_Struct" x_p2="121" x_p3="121" x_p4="98" x_p5="98" y_p2="0" y_p3="370" y_p4="370" y_p5="0" />
+   <connection dest="" dest_pin="Jury_Struct" reldiff="0" shape_type="2" source="Jury_Config" source_pin="Jury_Struct_raw" x_p2="460" x_p3="460" x_p4="90" x_p5="90" y_p2="399" y_p3="296" y_p4="296" y_p5="193" />
+   <connection dest="Jury_Config" dest_pin="Jury_ManeuverList_Loopback_raw" reldiff="0" shape_type="5" source="Jury_Config" source_pin="Jury_ManeuverList_raw" x_p2="464" x_p3="464" x_p4="86" x_p5="86" y_p2="428" y_p3="234" y_p4="234" y_p5="428" />
+   <connection dest="Jury_Config" dest_pin="Jury_Struct_Loopback_raw" reldiff="0" shape_type="5" source="Jury_Config" source_pin="Jury_Struct_raw" x_p2="460" x_p3="460" x_p4="94" x_p5="94" y_p2="399" y_p3="217" y_p4="217" y_p5="399" />
+   <connection dest="Camera_Snapshot_Filter3" dest_pin="Video_Input" reldiff="0" shape_type="1" source="AADC_Basler_Camera" source_pin="outputRGB" x_p2="264" x_p3="264" x_p4="98" x_p5="98" y_p2="222" y_p3="286" y_p4="286" y_p5="350" />
+   <connection dest="Camera_Snapshot_Filter" dest_pin="Video_Input" reldiff="0" shape_type="1" source="AADC_Realsense_Camera" source_pin="outputRGB" x_p2="294" x_p3="294" x_p4="98" x_p5="98" y_p2="350" y_p3="350" y_p4="350" y_p5="350" />
+  </configuration>
+  <configuration horizontal_scrollbar_value="1" name="main" show="true" tab_pos="6" vertical_scrollbar_value="1" zoomfactor="0,334898">
+   <component height="122" name="frAIburg_State_Machine2" width="311" x="941" y="11" />
+   <component height="146" name="JuryNotification" width="207" x="2793" y="32" />
+   <component height="122" name="frAIburg_Controller" width="252" x="1366" y="32" />
+   <component height="170" name="Base_Postioning" width="239" x="620" y="32" />
+   <component height="146" name="Base_Basler" width="172" x="280" y="32" />
+   <component height="50" name="Base_Config" width="172" x="1746" y="32" />
+   <component height="98" name="Video_Display4" width="172" x="1304" y="626">
+    <input_pin name="input" />
+    <input_pin name="gcl_input" />
+    <output_pin name="video_output" />
+   </component>
+   <component height="146" name="frAIburg_Ultrasonic_To_MapFilter" width="206" x="3080" y="32">
+    <input_pin name="enable" />
+    <input_pin name="UltrasonicFrontRight" />
+    <input_pin name="UltrasonicSideRight" />
+    <input_pin name="UltrasonicFrontCenterRight" />
+   </component>
+   <component height="74" name="frAIburg_Road_Sign_To_Map_Filter" width="211" x="2518" y="316">
+    <input_pin name="RoadSignExt" />
+    <output_pin name="JuryTrafficSign" />
+   </component>
+   <component height="98" name="Video_Display3" width="172" x="1366" y="186">
+    <input_pin name="input" />
+    <input_pin name="gcl_input" />
+    <output_pin name="video_output" />
+   </component>
+   <component height="74" name="Object_Detection__Bounding_Box__Filter" width="242" x="975" y="398">
+    <input_pin name="basler_rgb" />
+    <output_pin name="basler_viz" />
+   </component>
+   <component height="74" name="frAIburg_CrossingCreator" width="172" x="3330" y="162">
+    <input_pin name="crossing_in" />
+   </component>
+   <component height="98" name="frAIburg_Parking_Space_Detection" width="212" x="975" y="504">
+    <output_pin name="Ultrasonic_enable" />
+    <output_pin name="JuryParking" />
+   </component>
+   <component height="74" name="frAIburg_Zebra_Crossing_Detection" width="218" x="966" y="617">
+    <input_pin name="Video_Input" />
+    <output_pin name="Video_Output_Debug" />
+   </component>
+   <component height="98" name="Video_Display2" width="172" x="32" y="1155">
+    <input_pin name="input" />
+    <input_pin name="gcl_input" />
+    <output_pin name="video_output" />
+   </component>
+   <component height="122" name="frAIburg_Ultrasonic_To_MapFilter_Parking" width="253" x="2172" y="282">
+    <input_pin name="UltrasonicSideRight" />
+    <input_pin name="UltrasonicSideLeft" />
+    <input_pin name="enable" />
+   </component>
+   <component height="74" name="Obstacle__Detection_Filter" width="172" x="975" y="186">
+    <input_pin name="raw_depth_input" />
+   </component>
+   <component height="74" name="frAIburg_Ultrasonic_To_MapFilter_Emergency" width="274" x="2172" y="460">
+    <input_pin name="UltrasonicFrontCenter" />
+   </component>
+   <component height="98" name="Video_Display" width="172" x="3330" y="32">
+    <input_pin name="input" />
+    <input_pin name="gcl_input" />
+    <output_pin name="video_output" />
+   </component>
+   <component height="98" name="frAIburg_Dynamic_Emergency_Filter" width="222" x="1746" y="724">
+    <input_pin name="curvature" />
+    <input_pin name="car_speed" />
+    <output_pin name="PlannerBehaviour" />
+   </component>
+   <component height="50" name="frAIburg_Singleton_Map_Visualization" width="229" x="32" y="1317" />
+   <component height="146" name="frAIburg_Lane_Detection" width="205" x="2518" y="32">
+    <input_pin name="enable_filter" />
+    <input_pin name="Video_Input" />
+    <output_pin name="Lane" />
+    <output_pin name="GCL" />
+    <output_pin name="Video_Output_Debug" />
+    <output_pin name="Crossing" />
+   </component>
+   <component height="170" name="frAIburg_Planner" width="189" x="2172" y="32">
+    <input_pin name="delta_s" />
+    <input_pin name="Position" />
+    <input_pin name="VerticalLane" />
+    <input_pin name="behaviour" />
+    <output_pin name="v_set" />
+    <output_pin name="goal_point" />
+    <output_pin name="enable_front_view" />
+    <output_pin name="planner_status" />
+    <output_pin name="enable_us_right" />
+   </component>
+   <component height="74" name="frAIburg_Singleton_Map" width="172" x="2518" y="210">
+    <input_pin name="car_Postion" />
+   </component>
+   <component height="122" name="frAIburg_Keyboard_remote_Filter" width="204" x="32" y="32">
+    <output_pin name="light_command" />
+    <output_pin name="SteeringController" />
+    <output_pin name="SpeedController" />
+   </component>
+   <component height="194" name="frAIburg_Light_Controller" width="185" x="1366" y="316">
+    <input_pin name="light_command" />
+    <output_pin name="turn_right" />
+    <output_pin name="turn_left" />
+    <output_pin name="reverse_lights" />
+    <output_pin name="head_lights" />
+    <output_pin name="brake_lights" />
+    <output_pin name="hazzard_lights" />
+   </component>
+   <connection dest="Video_Display4" dest_pin="input" reldiff="0" shape_type="3" source="frAIburg_Zebra_Crossing_Detection" source_pin="Video_Output_Debug" x_p2="1196" x_p3="1196" x_p4="1292" x_p5="1292" y_p2="0" y_p3="668" y_p4="668" y_p5="0" />
+   <connection dest="frAIburg_Ultrasonic_To_MapFilter" dest_pin="enable" reldiff="0" shape_type="4" source="frAIburg_Planner" source_pin="enable_us_right" x_p2="2486" x_p3="2486" x_p4="3073" x_p5="3073" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="JuryNotification" dest_pin="traffic_sign_to_jury" reldiff="0" shape_type="4" source="frAIburg_Road_Sign_To_Map_Filter" source_pin="JuryTrafficSign" x_p2="2748" x_p3="2748" x_p4="2748" x_p5="2748" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="frAIburg_Road_Sign_To_Map_Filter" dest_pin="RoadSignExt" reldiff="0" shape_type="3" source="Base_Postioning" source_pin="RoadSign_ext" x_p2="883" x_p3="883" x_p4="2502" x_p5="2502" y_p2="0" y_p3="358" y_p4="358" y_p5="0" />
+   <connection dest="Video_Display3" dest_pin="input" reldiff="0" shape_type="4" source="Object_Detection__Bounding_Box__Filter" source_pin="basler_viz" x_p2="1289" x_p3="1289" x_p4="1289" x_p5="1289" y_p2="0" y_p3="228" y_p4="228" y_p5="0" />
+   <connection dest="Object_Detection__Bounding_Box__Filter" dest_pin="basler_rgb" reldiff="0" shape_type="3" source="Base_Basler" source_pin="BaslerCamerUndistorted" x_p2="464" x_p3="464" x_p4="464" x_p5="464" y_p2="0" y_p3="440" y_p4="440" y_p5="0" />
+   <connection dest="frAIburg_CrossingCreator" dest_pin="crossing_in" reldiff="0" shape_type="3" source="frAIburg_Lane_Detection" source_pin="Crossing" x_p2="2780" x_p3="2780" x_p4="3318" x_p5="3318" y_p2="0" y_p3="204" y_p4="204" y_p5="0" />
+   <connection dest="frAIburg_Planner" dest_pin="behaviour" reldiff="0" shape_type="3" source="frAIburg_State_Machine2" source_pin="sm_behaviour" x_p2="2140" x_p3="2140" x_p4="2148" x_p5="2148" y_p2="0" y_p3="164" y_p4="164" y_p5="0" />
+   <connection dest="frAIburg_Light_Controller" dest_pin="light_command" reldiff="0" shape_type="3" source="frAIburg_State_Machine2" source_pin="sm_light" x_p2="1272" x_p3="1272" x_p4="1354" x_p5="1354" y_p2="0" y_p3="358" y_p4="358" y_p5="0" />
+   <connection dest="frAIburg_State_Machine2" dest_pin="sm_planner_status" reldiff="0" shape_type="2" source="frAIburg_Planner" source_pin="planner_status" x_p2="2482" x_p3="2482" x_p4="925" x_p5="925" y_p2="146" y_p3="1073" y_p4="1073" y_p5="77" />
+   <connection dest="frAIburg_Lane_Detection" dest_pin="Video_Input" reldiff="0" shape_type="4" source="Base_Basler" source_pin="BaslerCamerIPM" x_p2="476" x_p3="476" x_p4="2498" x_p5="2498" y_p2="0" y_p3="122" y_p4="122" y_p5="0" />
+   <connection dest="frAIburg_Zebra_Crossing_Detection" dest_pin="Video_Input" reldiff="0" shape_type="3" source="Base_Basler" source_pin="BaslerCamerIPM" x_p2="476" x_p3="476" x_p4="920" x_p5="920" y_p2="0" y_p3="659" y_p4="659" y_p5="0" />
+   <connection dest="JuryNotification" dest_pin="parking_space_to_jury" reldiff="0" shape_type="4" source="frAIburg_Parking_Space_Detection" source_pin="JuryParking" x_p2="1291" x_p3="1291" x_p4="2773" x_p5="2773" y_p2="0" y_p3="122" y_p4="122" y_p5="0" />
+   <connection dest="frAIburg_Ultrasonic_To_MapFilter_Parking" dest_pin="enable" reldiff="0" shape_type="4" source="frAIburg_Parking_Space_Detection" source_pin="Ultrasonic_enable" x_p2="1287" x_p3="1287" x_p4="2144" x_p5="2144" y_p2="0" y_p3="372" y_p4="372" y_p5="0" />
+   <connection dest="JuryNotification" dest_pin="car_position_to_jury" reldiff="0" shape_type="3" source="Base_Postioning" source_pin="Position" x_p2="879" x_p3="879" x_p4="2777" x_p5="2777" y_p2="0" y_p3="98" y_p4="98" y_p5="0" />
+   <connection dest="frAIburg_Lane_Detection" dest_pin="enable_filter" reldiff="0" shape_type="4" source="frAIburg_Planner" source_pin="enable_front_view" x_p2="2478" x_p3="2478" x_p4="2506" x_p5="2506" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="frAIburg_Dynamic_Emergency_Filter" dest_pin="car_speed" reldiff="0" shape_type="3" source="Base_Postioning" source_pin="speed" x_p2="879" x_p3="879" x_p4="1726" x_p5="1726" y_p2="0" y_p3="790" y_p4="790" y_p5="0" />
+   <connection dest="frAIburg_Dynamic_Emergency_Filter" dest_pin="curvature" reldiff="0" shape_type="3" source="frAIburg_Controller" source_pin="curvature" x_p2="1638" x_p3="1638" x_p4="1734" x_p5="1734" y_p2="0" y_p3="766" y_p4="766" y_p5="0" />
+   <connection dest="frAIburg_Planner" dest_pin="behaviour" reldiff="0" shape_type="4" source="frAIburg_Dynamic_Emergency_Filter" source_pin="PlannerBehaviour" x_p2="2048" x_p3="2048" x_p4="2048" x_p5="2048" y_p2="0" y_p3="164" y_p4="164" y_p5="0" />
+   <connection dest="Obstacle__Detection_Filter" dest_pin="raw_depth_input" reldiff="0" shape_type="3" source="Base_Basler" source_pin="RealsenseDepth" x_p2="468" x_p3="468" x_p4="468" x_p5="468" y_p2="0" y_p3="228" y_p4="228" y_p5="0" />
+   <connection dest="Video_Display" dest_pin="input" reldiff="0" shape_type="4" source="frAIburg_Lane_Detection" source_pin="Video_Output_Debug" x_p2="2776" x_p3="2776" x_p4="3318" x_p5="3318" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="Video_Display" dest_pin="gcl_input" reldiff="0" shape_type="3" source="frAIburg_Lane_Detection" source_pin="GCL" x_p2="2772" x_p3="2772" x_p4="3314" x_p5="3314" y_p2="0" y_p3="98" y_p4="98" y_p5="0" />
+   <connection dest="frAIburg_Planner" dest_pin="VerticalLane" reldiff="0" shape_type="1" source="frAIburg_Lane_Detection" source_pin="Lane" x_p2="2776" x_p3="2776" x_p4="2152" x_p5="2152" y_p2="74" y_p3="632" y_p4="632" y_p5="134" />
+   <connection dest="frAIburg_Singleton_Map" dest_pin="car_Postion" reldiff="0" shape_type="3" source="Base_Postioning" source_pin="Position" x_p2="879" x_p3="879" x_p4="2506" x_p5="2506" y_p2="0" y_p3="252" y_p4="252" y_p5="0" />
+   <connection dest="frAIburg_Planner" dest_pin="Position" reldiff="0" shape_type="3" source="Base_Postioning" source_pin="Position" x_p2="879" x_p3="879" x_p4="2152" x_p5="2152" y_p2="0" y_p3="104" y_p4="104" y_p5="0" />
+   <connection dest="frAIburg_Planner" dest_pin="delta_s" reldiff="0" shape_type="4" source="Base_Postioning" source_pin="delta_s" x_p2="883" x_p3="883" x_p4="2148" x_p5="2148" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="frAIburg_Controller" dest_pin="goal_point" reldiff="0" shape_type="1" source="frAIburg_Planner" source_pin="goal_point" x_p2="2470" x_p3="2470" x_p4="1346" x_p5="1346" y_p2="98" y_p3="1039" y_p4="1039" y_p5="122" />
+   <connection dest="frAIburg_Controller" dest_pin="v_set" reldiff="0" shape_type="1" source="frAIburg_Planner" source_pin="v_set" x_p2="2466" x_p3="2466" x_p4="1350" x_p5="1350" y_p2="74" y_p3="1022" y_p4="1022" y_p5="98" />
+   <connection dest="frAIburg_Controller" dest_pin="v_current" reldiff="0" shape_type="4" source="Base_Postioning" source_pin="speed" x_p2="879" x_p3="879" x_p4="1354" x_p5="1354" y_p2="0" y_p3="74" y_p4="74" y_p5="0" />
+   <connection dest="frAIburg_Light_Controller" dest_pin="light_command" reldiff="0" shape_type="3" source="frAIburg_Keyboard_remote_Filter" source_pin="light_command" x_p2="260" x_p3="260" x_p4="1342" x_p5="1342" y_p2="0" y_p3="358" y_p4="358" y_p5="0" />
+   <connection dest="Base_Postioning" dest_pin="BaslerCamer_Undistorted" reldiff="0" shape_type="3" source="Base_Basler" source_pin="BaslerCamerUndistorted" x_p2="464" x_p3="464" x_p4="464" x_p5="464" y_p2="0" y_p3="146" y_p4="146" y_p5="0" />
+  </configuration>
+ </ce_layouts>
+</adtf:configuration>

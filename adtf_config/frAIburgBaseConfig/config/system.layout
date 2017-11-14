@@ -1,0 +1,19 @@
+<adtf:export xmlns:adtf="adtf">
+	<layout name="Jury_Configuration">
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="563" Maximized="false" Minimized="false" PosX="532" PosY="10" TopOfMain="false" Visible="true" Width="326" name="AADC_Jury_Module" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="534" Maximized="false" Minimized="false" PosX="0" PosY="0" TopOfMain="false" Visible="true" Width="350" name="AADC_Driver_Module" />
+	</layout>
+	<layout name="Playback_Visualization">
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="240" Maximized="false" Minimized="false" PosX="612" PosY="-1" TopOfMain="false" Visible="true" Width="320" name="Signal_View" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="509" Maximized="false" Minimized="false" PosX="0" PosY="0" TopOfMain="false" Visible="true" Width="1171" name="AADC_Visualization" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="240" Maximized="false" Minimized="false" PosX="394" PosY="98" TopOfMain="false" Visible="true" Width="320" name="Video_Display" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="480" Maximized="false" Minimized="false" PosX="0" PosY="0" TopOfMain="false" Visible="true" Width="640" name="Video_Display2" />
+	</layout>
+	<layout name="Live_Visualization">
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="278" Maximized="false" Minimized="false" PosX="0" PosY="0" TopOfMain="false" Visible="true" Width="563" name="AADC_Control" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="740" Maximized="false" Minimized="false" PosX="10" PosY="-53" TopOfMain="false" Visible="true" Width="1383" name="AADC_Visualization" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="982" Maximized="false" Minimized="false" PosX="0" PosY="0" TopOfMain="false" Visible="false" Width="1352" name="Signal_View" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="484" Maximized="false" Minimized="false" PosX="40" PosY="-78" TopOfMain="false" Visible="true" Width="579" name="Video_Display" />
+		<filter Docked="false" Floating="false" Fullscreen="false" Height="482" Maximized="false" Minimized="false" PosX="641" PosY="-79" TopOfMain="false" Visible="true" Width="652" name="Video_Display2" />
+	</layout>
+</adtf:export>

@@ -1,0 +1,79 @@
+tResult cLaneDetection::Init(tInitStage eStage, __exception) {
+    RETURN_IF_FAILED(cFilter::Init(eStage, __exception_ptr));
+
+    if (eStage == StageFirst) {
+        // Video Input
+        RETURN_IF_FAILED(m_oVideoInputPin.Create(
+            "Video_Input", IPin::PD_Input, static_cast<IPinEventSink*>(this)));
+        RETURN_IF_FAILED(RegisterPin(&m_oVideoInputPin));
+
+        // Video_Output_Debug
+        RETURN_IF_FAILED(
+            m_oVideoOutputPin.Create("Video_Output_Debug", IPin::PD_Output,
+                                     static_cast<IPinEventSink*>(this)));
+        RETURN_IF_FAILED(RegisterPin(&m_oVideoOutputPin));
+
+        // GCL Output
+        m_oGCLOutputPin.Create(
+            "GCL",
+            new adtf::cMediaType(MEDIA_TYPE_COMMAND, MEDIA_SUBTYPE_COMMAND_GCL),
+            static_cast<IPinEventSink*>(this));
+        RegisterPin(&m_oGCLOutputPin);
+
+        // new way of registering pin-----
+        slim::register_pin_func func = &cLaneDetection::RegisterPin;
+        // create description manager -> only once for all pins, can be used to
+        // get
+        // all the data types
+        cObjectPtr<IMediaDescriptionManager> descr_manager;
+        RETURN_IF_FAILED(
+            AdtfTools::GetDescManager(descr_manager, __exception_ptr));
+        // create output pin: lane point output
+        RETURN_IF_FAILED(tLane_output_pin_.FirstStageCreate(
+            this, func, "Lane", "tLane"));
+
+    } else if (eStage == StageNormal) {
+    } else if (eStage == StageGraphReady) {
+        // get the image format of the input video pin
+        cObjectPtr<IMediaType> pType;
+        RETURN_IF_FAILED(m_oVideoInputPin.GetMediaType(&pType));
+
+        cObjectPtr<IMediaTypeVideo> pTypeVideo;
+        RETURN_IF_FAILED(pType->GetInterface(
+            IID_ADTF_MEDIA_TYPE_VIDEO, reinterpret_cast<tVoid**>(&pTypeVideo)));
+
+        printf("188 Init Stage Fehler. altes Pixelformat: "
+                    "%d, == %d IImage::PF_UNKNOWN, neues Pixelformat %d \n "
+                    , m_sInputFormat.nPixelFormat
+                    , IImage::PF_UNKNOWN
+                    , m_oVideoInputPin.GetFormat()->nPixelFormat);
+        // set the image format of the input video pin
+        if (IS_FAILED(UpdateInputImageFormat(pTypeVideo->GetFormat()))) {
+
+            LOG_ERROR("Invalid Input Format for this filter");
+        }
+        // set ids for tLane
+        vector<string> ids = boost::assign::list_of("count")("idx")("coeff0")("coeff1")("coeff2")("coeff3");
+        RETURN_IF_FAILED(tLane_output_pin_.StageGraphReadySetIDOrder(ids));
+    }
+    printf("\nINIT SUCCESSFULL!!\n");
+
+    RETURN_NOERROR;
+}
+
+tResult cLaneDetection::transmitLaneVec(const std::vector<Lane>& lane_vec) {
+    int vec_size = lane_vec.size();
+
+/*    for (int i = 0; i < vec_size; ++i) {
+        vector<const tVoid*> vals2 = boost::assign::list_of
+          ((const tVoid*)&vec_size)((const tVoid*)&i)
+          ((const tVoid*)&lane_vec[i].coeff[0])((const tVoid*)&lane_vec[i].coeff[1])((const tVoid*)&i)
+          ((const tVoid*)&lane_vec[i].coeff[2])((const tVoid*)&lane_vec[i].coeff[3]); 
+        if (IS_FAILED(
+            tLane_output_pin_.Transmit(vals2, _clock->GetStreamTime()))) {
+            LOG_ERROR("failed sending Lane ");
+        }
+    }
+  */
+    RETURN_NOERROR;
+}

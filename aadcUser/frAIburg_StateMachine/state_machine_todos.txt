@@ -1,0 +1,11 @@
+Allowed to Go has two types of switches!
+TODO two types of switches? (current_event_.event_type) vs el->GetType()
+
+
+
+Speed up:
+- Change commands from string to enum
+
+Style:
+- use std::vector instead of vector
+- 

@@ -1,0 +1,24 @@
+<adtf:export xmlns:adtf="adtf">
+ <folder name="DemoTask">
+  <folder name="components">
+   <folder name="FilterTraceView" />
+  </folder>
+  <folder name="windows">
+   <folder Height="548" PosX="0" Visible="true" Width="881" name="frAIburg_Singleton_Map_Visualization" />
+   <folder Height="548" Visible="true" Width="784" name="Video_Display" />
+  </folder>
+ </folder>
+ <folder name="main">
+  <folder name="components">
+   <folder filter_tree_expanded_list="" name="FilterTraceView" />
+  </folder>
+  <folder name="windows">
+   <folder Height="1095" Maximized="false" PosX="679" PosY="0" Visible="true" Width="677" name="frAIburg_Singleton_Map_Visualization" />
+   <folder Height="548" Visible="true" Width="784" name="Video_Display2" />
+   <folder Height="374" Visible="true" Width="1272" name="Base_Postioning-Video_Display" />
+   <folder Height="696" PosX="897" PosY="40" Visible="true" Width="627" name="Video_Display" />
+   <folder Height="548" PosX="0" Visible="false" Width="784" name="Video_Display3" />
+   <folder Height="1095" Visible="true" Width="679" name="Video_Display4" />
+  </folder>
+ </folder>
+</adtf:export>

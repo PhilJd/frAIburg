@@ -1,0 +1,21 @@
+%YAML:1.0
+---
+calibration_time: "10/24/17"
+image_width: 1280
+image_height: 960
+# camera parameters and distortion coefficients calculated with kalibr
+# model: pinhole, equidistance
+# pattern aprilgrid 6x6 8cm 0.3
+# images recorded with basler from car 2 using ros
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [584.754430519324, 0., 628.9266709756579,
+          0., 585.5124808996204, 489.59879972861233,
+          0., 0., 1.]
+distortion_coefficients: !!opencv-matrix
+   rows: 4
+   cols: 1
+   dt: d
+   data: [-0.020144966742426867, -0.005002683629607326, 0.0007988311057911372, -0.000786484805219138]

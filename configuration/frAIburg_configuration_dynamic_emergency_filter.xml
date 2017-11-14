@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration datetime="03-Sep-2017" target="car2">
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="PositionLimits">
+      <!-- emergency position limits in meter-->
+      <value name="threshold_meter_x_min" value="-9.2"/>
+      <value name="threshold_meter_x_max" value="0.5"/>
+      <value name="threshold_meter_y_min" value="-0.2"/>
+      <value name="threshold_meter_y_max" value="5.05"/>
+   </DynamicEmergencyFilter>
+
+   <DynamicEmergencyFilter description="16-Sep-2017" target="MapCollisionCheckBox">
+      <!-- box the check with collision in the local car frame-->
+      <value name="center_local_meter_x" value="0.15"/>
+      <value name="center_local_meter_y" value="0"/>
+      <value name="size_half_meter_x" value="0.15"/>
+      <value name="size_half_meter_y" value="0.1"/>
+      <value name="box_orientation_clockwise_degree" value="0"/>
+   </DynamicEmergencyFilter>
+
+   <!-- emergency threshold in meter for 8 us sensors-->
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicFrontLeft">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicFrontCenterLeft">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicFrontCenter">
+     <value name="threshold_meter" value="0.1"/>
+   </DynamicEmergencyFilter>  
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicFrontCenterRight">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>   
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicFrontRight">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>   
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicSideLeft">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>   
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicSideRight">
+      <value name="threshold_meter" value="0.3"/>
+   </DynamicEmergencyFilter>  
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicRearCenterLeft">
+      <value name="threshold_meter" value="0.02"/>
+   </DynamicEmergencyFilter>  
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicRearCenter">
+      <value name="threshold_meter" value="0.1"/>
+   </DynamicEmergencyFilter>  
+
+   <DynamicEmergencyFilter description="05-Sep-2017" target="UltrasonicRearCenterRight">
+      <value name="threshold_meter" value="0.02"/>
+   </DynamicEmergencyFilter>
+
+</configuration>
