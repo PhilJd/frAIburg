@@ -34,6 +34,6 @@ in the respective folders.
 
 [Felix Plum](https://github.com/felixplum),
 [Philipp Jund](https://github.com/philjd),
-[Markus Merlinger](RedHeadM),
+[Markus Merlinger](http://github.com/RedHeadM),
 [Jan Bechtold](http://github.com/janbechtold),
-[Lior Fuks](liorfuks).
+[Lior Fuks](http://github.com/liorfuks).
