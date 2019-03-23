@@ -7,6 +7,9 @@ our wrapper library [`adtf_slim`](aadcUser/lib_adtf_slim),
 which simplifies pin creation and sending of ADTF native types
 and also OpenCV types with no overhead.**
 
+### Videos
+[![Video 1](https://i.vimeocdn.com/video/656978096_640.jpg)](https://vimeo.com/235206506)
+[![Video 2](https://i.vimeocdn.com/video/659716335_640.jpg)](https://vimeo.com/237333489)
 
 
 ### Installation
